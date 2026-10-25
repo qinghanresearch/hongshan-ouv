@@ -81,6 +81,27 @@ section{position:relative;padding:13vh 4vw}
 .sec-head p.lede b{color:var(--ink);font-weight:500}
 .wrap{max-width:1200px;margin:0 auto}
 
+/* ---------- sources & evidence method ---------- */
+.method-sources{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));gap:12px}
+.method-source{border-top:2px solid var(--line);background:var(--bg2);padding:22px 20px}
+.method-source .ms-code{font-family:var(--latin);font-size:12px;letter-spacing:.22em;color:var(--gold)}
+.method-source h3{font-family:var(--serif);font-size:17px;font-weight:700;margin:8px 0}
+.method-source p,.method-card p,.method-note p{font-size:12.5px;color:var(--ink-dim);line-height:1.8}
+.method-source a{display:inline-block;margin-top:10px;font-size:12px;border-bottom:1px solid var(--line)}
+.method-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:16px;margin-top:28px}
+.method-card{border:1px solid var(--line-soft);border-top:3px solid var(--gold);background:var(--bg2);padding:26px 24px}
+.method-card.a{border-top-color:var(--jade)}
+.method-card.c{border-top-color:var(--risk-midhigh)}
+.method-card .level{font-family:var(--latin);font-size:38px;font-weight:600;line-height:1;color:var(--gold)}
+.method-card.a .level{color:var(--jade)}
+.method-card.c .level{color:var(--risk-midhigh)}
+.method-card h3{font-family:var(--serif);font-size:19px;font-weight:700;margin:12px 0 10px}
+.method-card b{color:var(--ink);font-weight:500}
+.method-note{margin-top:20px;border-left:3px solid var(--gold);background:var(--gold-faint);padding:22px 24px}
+.method-note h3{font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:8px}
+.method-note p+p{margin-top:8px}
+.method-note b{color:var(--ink);font-weight:500}
+
 /* ---------- pillars & tiers ---------- */
 .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin-bottom:80px}
 .pillar{background:var(--bg2);padding:36px 30px;position:relative;transition:background .4s}
@@ -422,7 +443,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
 <nav id="nav" aria-label="页面导航">
   <div class="nav-brand">红山申遗<small>HONGSHAN · WORLD HERITAGE</small></div>
   <div class="nav-links" id="navLinks">
-    <a href="#s1">评审机制</a><a href="#s2">跨文明比较</a><a href="#s3">负面清单</a><a href="#s4">红山占位</a><a href="#s5">命题风险</a><a href="#s6">推荐OUV</a><a href="#s7">路线图</a>
+    <a href="#method">方法与来源</a><a href="#s1">评审机制</a><a href="#s2">跨文明比较</a><a href="#s3">负面清单</a><a href="#s4">红山占位</a><a href="#s5">命题风险</a><a href="#s6">推荐OUV</a><a href="#s7">路线图</a>
   </div>
   <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="打开章节导航">章节导航</button>
 </nav>
@@ -432,7 +453,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="hero-inner">
     <div class="hero-kicker">世界遗产申报 · ICOMOS评估预判研究</div>
     <h1>红山文化申遗<br><em>跨文明坐标下的价值与风险</em></h1>
-    <p class="hero-sub">以ICOMOS评估机制为镜：<b>18处可比遗产</b>的通过论据与削减记录、<b>五类失败案例</b>的逆向归因、<b>八条OUV命题</b>的证据分级与风险转写——回答一个问题：红山凭什么入遗，以及怎样写才不会被砍掉。</p>
+    <p class="hero-sub">以ICOMOS评估机制为镜，梳理<b>18处可比遗产</b>的通过论据与削减记录、<b>五类失败案例</b>的逆向归因，以及<b>八条OUV命题</b>的证据分级与风险转写。这些材料共同回答一个问题：红山凭什么入遗，以及怎样写才不会被砍掉。</p>
     <div class="hero-stats">
       <div class="hstat"><div class="num" data-count="18">0</div><div class="lbl">可比遗产档案</div></div>
       <div class="hstat"><div class="num" data-count="5">0</div><div class="lbl">负面清单类别</div></div>
@@ -442,6 +463,34 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   </div>
   <div class="scroll-hint">向下滚动</div>
 </header>
+
+<!-- ============ 方法与来源 ============ -->
+<section id="method" style="background:linear-gradient(180deg,rgba(154,123,45,.06),transparent)">
+  <div class="sec-head rv">
+    <div class="sec-index"><span class="no">方法</span><span class="rule"></span><span class="en">Sources &amp; Evidence</span></div>
+    <h2>数据来源与证据分层：<em>先区分事实、阐释与假说</em></h2>
+    <p class="lede">本页以项目组《红山文化申遗ICOMOS比较预判研究》和《红山文化申遗OUV命题核验报告》为研究底稿。每项主张先追溯来源，再判断证据等级；公共传播中的说法不能直接进入OUV声明。</p>
+  </div>
+  <div class="wrap">
+    <div class="method-sources rv">
+      <article class="method-source"><div class="ms-code">S1 · 程序基线</div><h3>官方申报与国际文件</h3><p>UNESCO预备名单、申报文本、ICOMOS评估报告与委员会决议，用于确认申报口径和评审规则。</p><a href="https://whc.unesco.org/en/tentativelists/5804/" target="_blank" rel="noopener noreferrer">查看 UNESCO 预备名单第5804号 ↗</a></article>
+      <article class="method-source"><div class="ms-code">S2 · 分级主依据</div><h3>考古与学术研究</h3><p>正式考古报告、同行评议论文和正式刊布的测年数据，是判断考古事实与学术阐释的主要依据。</p></article>
+      <article class="method-source"><div class="ms-code">S3 · 明确归属</div><h3>署名学派观点</h3><p>学者或学派提出的解释必须归属到具体提出者，通常列入B层或C层，不写成无争议事实。</p></article>
+      <article class="method-source"><div class="ms-code">S4 · 风险线索</div><h3>公共传播材料</h3><p>纪录片、媒体报道和网络二次创作只用于识别需要核验或转写的表述，不作为证据分级依据。</p></article>
+      <article class="method-source"><div class="ms-code">S5 · 追溯刊布</div><h3>国家工程与官方发布</h3><p>探源工程成果和国家文物局通报具有较高权重，同时仍需追溯其背后的正式刊布状态。</p></article>
+    </div>
+    <div class="method-grid rv">
+      <article class="method-card a"><div class="level">A</div><h3>可核验的考古事实</h3><p>限于形制、地层、测年和出土背景等物质遗存描述，并有正式报告、同行评议研究或国家工程正式发布支持，且未见具名实质异议。<b>三项条件必须同时满足。</b></p></article>
+      <article class="method-card"><div class="level">B</div><h3>多来源支持的学术阐释</h3><p>解释性判断须获得两个以上独立学术来源支持，且没有系统性的具名实证反驳。行文以“学术界认为”“研究表明”等措辞明确其阐释属性。</p></article>
+      <article class="method-card c"><div class="level">C</div><h3>归属明确的待证假说</h3><p>观点仅属于个人或小群体、存在具名反驳，或仅见于非同行评议渠道，满足任一项即入C层。只能作为研究假说呈现，不能写成确定结论。</p></article>
+    </div>
+    <div class="method-note rv">
+      <h3>阅读边界与强制降级规则</h3>
+      <p><b>一旦出现具名反证，相关表述即降为C层，并同时呈现质疑意见。</b>B层和C层内容不得作为无条件事实直接进入OUV声明。</p>
+      <p>跨文明坐标和图版中的证据比例属于研究性示意，不是ICOMOS官方分类或统计计量。尚处简报或报道阶段的新发现不按正式刊布证据使用；比较案例主要依据评估报告关键章节、委员会决议和权威二手研究，并非逐字检读全部卷宗。</p>
+    </div>
+  </div>
+</section>
 
 <!-- ============ 01 评审机制 ============ -->
 <section id="s1">
@@ -455,17 +504,17 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
       <div class="pillar">
         <div class="p-no">PILLAR I</div><span class="veto">具否决权</span>
         <h3>突出的普遍价值 OUV</h3>
-        <p>纳姆堡大教堂三度被建议不予列入——ICOMOS承认其真实性、完整性与保护管理全部达标，唯独OUV不成立。OUV是三支柱中唯一具否决权的一柱。</p>
+        <p>ICOMOS虽然承认纳姆堡大教堂的真实性、完整性与保护管理全部达标，但仍因OUV不成立而三度建议不予列入。OUV是三支柱中唯一具否决权的一柱。</p>
       </div>
       <div class="pillar">
         <div class="p-no">PILLAR II</div>
         <h3>真实性 · 完整性</h3>
-        <p>红山实际处于有利位置：积石冢与坛庙遗存未经大规模重建，多数发掘点回填保护——与绳文"保护性覆土+可移除复原模型"一致，是ICOMOS欣赏的处理方式。</p>
+        <p>红山实际处于有利位置：积石冢与坛庙遗存未经大规模重建，多数发掘点回填保护。这与绳文"保护性覆土+可移除复原模型"的做法一致，是ICOMOS欣赏的处理方式。</p>
       </div>
       <div class="pillar">
         <div class="p-no">PILLAR III</div>
         <h3>保护与管理</h3>
-        <p>管理问题不阻挡列入，但会以"决定附件要求"写入委员会决议，成为定期报告的长期负债——中国项目在管理侧被要求的整改项通常最多。</p>
+        <p>管理问题不阻挡列入，但会以"决定附件要求"写入委员会决议，成为定期报告的长期负债。中国项目在管理侧被要求的整改项通常最多。</p>
       </div>
     </div>
 
@@ -494,7 +543,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
 
     <div class="flip-band rv">
       <div class="flip-num"><span data-count="47">0</span><small> / 87</small></div>
-      <div class="flip-txt"><b>委员会翻盘率：</b>2009—2025年间，ICOMOS建议Deferral的87个项目中，47个被委员会直接改为列入。但翻盘集中在政治动员能力强的缔约国——<b>把希望寄托在委员会翻盘，等于承认文本失败</b>。红山的策略目标：ICOMOS建议不低于Referral，力争Inscription。</div>
+      <div class="flip-txt"><b>委员会翻盘率：</b>2009—2025年间，ICOMOS建议Deferral的87个项目中，47个被委员会直接改为列入。但翻盘集中在政治动员能力强的缔约国，因此<b>把希望寄托在委员会翻盘，等于承认文本失败</b>。红山的策略目标：ICOMOS建议不低于Referral，力争Inscription。</div>
       <div class="goal-chip"><div class="g1">策略目标</div><div class="g2">≥ Referral，力争列入</div></div>
     </div>
 
@@ -518,7 +567,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="sec-head rv">
     <div class="sec-index"><span class="no">02</span><span class="rule"></span><span class="en">Cross-Civilization Comparison</span></div>
     <h2>跨文明坐标系：<em>红山的空位是真实的</em></h2>
-    <p class="lede">按ICOMOS《填补空白》报告的<b>类型学—年代区域—主题</b>三重框架，检出名录上全部18处可比遗产。在<b>距今6000—5000年 × 高礼仪性</b>的象限内，东亚完全空白——良渚填的是"早期国家/城市"格，<b>"礼仪中心"格仍然空着</b>。悬停查看每处遗产档案。</p>
+    <p class="lede">按ICOMOS《填补空白》报告的<b>类型学—年代区域—主题</b>三重框架，检出名录上全部18处可比遗产。在<b>距今6000—5000年 × 高礼仪性</b>的象限内，东亚完全空白。良渚填的是"早期国家/城市"格，<b>"礼仪中心"格仍然空着</b>。悬停查看每处遗产档案。</p>
   </div>
   <div class="wrap">
     <div class="scatter-box rv">
@@ -538,7 +587,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
       <p class="scatter-hint">左右滑动查看完整坐标图；点按遗产点位可查看图片与档案。</p>
       <div class="vacancy-note">
         <span class="vn-tag">空位判读</span>
-        <p>为便于辨认，相邻点位在年代轴上做了一百至两百年内的示意性错开。虚线椭圆内：<b>东亚新石器礼仪中心</b>是名录真空。最危险的撞车不是良渚，而是<b>霍普韦尔</b>（空置礼仪中心）与<b>哥贝克力</b>（最早纪念性）——红山文本必须主动论证差异：比霍普韦尔多出"等级制度化"，比哥贝克力多出"坛庙冢三合一体系"。卡拉尔—苏佩的"Sacred City"命名先例，则为红山回归"圣地"定位提供了ICOMOS体系内的合法名分。</p>
+        <p>为便于辨认，相邻点位在年代轴上做了一百至两百年内的示意性错开。虚线椭圆内：<b>东亚新石器礼仪中心</b>是名录真空。最危险的撞车不是良渚，而是<b>霍普韦尔</b>（空置礼仪中心）与<b>哥贝克力</b>（最早纪念性），因此红山文本必须主动论证差异：比霍普韦尔多出"等级制度化"，比哥贝克力多出"坛庙冢三合一体系"。卡拉尔—苏佩的"Sacred City"命名先例，则为红山回归"圣地"定位提供了ICOMOS体系内的合法名分。</p>
       </div>
     </div>
 
@@ -558,7 +607,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="sec-head rv">
     <div class="sec-index"><span class="no">03</span><span class="rule"></span><span class="en">The Negative List</span></div>
     <h2>负面清单：<em>别人怎么失败的，红山就怎么写</em></h2>
-    <p class="lede">将2009—2025年间同类遗产的Refer/Defer及标准削减案例按失败原因归因为<b>五类</b>。每一类都对应红山文本的一条写作纪律——点击分类筛选。</p>
+    <p class="lede">将2009—2025年间同类遗产的Refer/Defer及标准削减案例按失败原因归因为<b>五类</b>。每一类都对应红山文本的一条写作纪律。点击分类即可筛选。</p>
   </div>
   <div class="wrap">
     <div class="gal-filter rv" id="negFilter">
@@ -578,7 +627,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="sec-head rv">
     <div class="sec-index"><span class="no">04</span><span class="rule"></span><span class="en">The Hongshan Difference</span></div>
     <h2>红山的独特占位：<em>名录无法提供的四项属性</em></h2>
-    <p class="lede">差距论证的正确位置是"服务于OUV论证的辅证"——泉州判词言犹在耳：<b>"名录存在空白不是列入的理由"</b>。在此约束下，红山可以主张四项名录现存遗产无法提供的属性。</p>
+    <p class="lede">差距论证只能作为"服务于OUV论证的辅证"，因为泉州判词已经明确：<b>"名录存在空白不是列入的理由"</b>。在此约束下，红山可以主张四项名录现存遗产无法提供的属性。</p>
   </div>
   <div class="wrap">
     <div class="attr-grid rv">
@@ -587,7 +636,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         <div class="abody">
           <div class="ano">ATTRIBUTE 01</div>
           <h4>大型偶像崇拜建筑与成组泥塑神像群</h4>
-          <p>距今5800年前后，女神庙以多室半地穴殿堂容纳真人大至真人三倍的人像群（至少6个个体）。哥贝克力是抽象T形石柱，马耳他雕像属室内陈设，恰塔尔休于无独立偶像殿堂——<b>全球同期没有对标</b>，直接支撑标准(iii)的"特殊见证"。</p>
+          <p>距今5800年前后，女神庙以多室半地穴殿堂容纳真人大至真人三倍的人像群（至少6个个体）。哥贝克力是抽象T形石柱，马耳他雕像属室内陈设，恰塔尔休于无独立偶像殿堂。与此相比，<b>全球同期没有对标</b>，可直接支撑标准(iii)的"特殊见证"。</p>
         </div>
       </div>
       <div class="attr">
@@ -595,7 +644,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         <div class="abody">
           <div class="ano">ATTRIBUTE 02</div>
           <h4>体系化玉礼器系统与9000年证据链</h4>
-          <p>名录上没有任何遗产以玉器为OUV属性。红山玦形玉龙、勾云形佩、斜口筒形器可上接距今约9000年的小南山—兴隆洼用玉传统，构成<b>全球连续性最长的玉文化证据链</b>。表述边界：器物是支撑证据，出土情境（context）才是属性——霍普韦尔先例。</p>
+          <p>名录上没有任何遗产以玉器为OUV属性。红山玦形玉龙、勾云形佩、斜口筒形器可上接距今约9000年的小南山—兴隆洼用玉传统，构成<b>全球连续性最长的玉文化证据链</b>。根据霍普韦尔先例，器物是支撑证据，出土情境（context）才是属性。</p>
         </div>
       </div>
       <div class="attr">
@@ -603,7 +652,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         <div class="abody">
           <div class="ano">ATTRIBUTE 03</div>
           <h4>"无城、无文字、无金属"的礼仪驱动路径</h4>
-          <p>名录上的早期复杂社会叙事几乎全被"城市—国家"或"纪念物工程"占据。红山展示了<b>通过礼仪信仰整合实现社会等级化的第三条路径</b>：50平方公里礼仪区、10万平方米台基群、600公里外玉料输入——有人群动员能力而无城市设施。</p>
+          <p>名录上的早期复杂社会叙事几乎全被"城市—国家"或"纪念物工程"占据。红山展示了<b>通过礼仪信仰整合实现社会等级化的第三条路径</b>：50平方公里礼仪区、10万平方米台基群和600公里外玉料输入，共同说明这里有人群动员能力而无城市设施。</p>
         </div>
       </div>
       <div class="attr">
@@ -611,7 +660,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         <div class="abody">
           <div class="ano">ATTRIBUTE 04</div>
           <h4>坛、庙、冢三要素同一规划单元共存</h4>
-          <p>祭坛（天）、偶像庙（祖）、等级墓葬（社会秩序）构成"宇宙观—祖先观—等级制"三位一体。马耳他只有庙，博因河只有墓，钱基略只有观测复合体，奥克尼含定居村落——<b>"体系完整性"是标准(iv)下最硬的论据</b>。良渚已占"城市"格，红山必须走差异化。</p>
+          <p>祭坛（天）、偶像庙（祖）、等级墓葬（社会秩序）构成"宇宙观—祖先观—等级制"三位一体。马耳他只有庙，博因河只有墓，钱基略只有观测复合体，奥克尼含定居村落。与此相比，<b>"体系完整性"是标准(iv)下最硬的论据</b>。良渚已占"城市"格，红山必须走差异化。</p>
         </div>
       </div>
     </div>
@@ -649,14 +698,14 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="sec-head rv">
     <div class="sec-index"><span class="no">06</span><span class="rule"></span><span class="en">Recommended OUV</span></div>
     <h2>推荐价值阐述：<em>往A层证据的方向大胆</em></h2>
-    <p class="lede">2013年文本保守，因为当时证据有限；2026年的新文本可以更大胆，因为证据底座已经换了——9座台基建筑群（约10万平方米）、贝叶斯测年5800BP集中营建、郑家沟古基因组。但大胆的方向必须是<b>往A层证据的方向大胆</b>，而不是往C层假说的方向大胆。</p>
+    <p class="lede">2013年文本保守，因为当时证据有限；2026年的新文本可以更大胆，因为证据底座已经新增9座台基建筑群（约10万平方米）、贝叶斯测年5800BP集中营建和郑家沟古基因组。但大胆的方向必须是<b>往A层证据的方向大胆</b>，而不是往C层假说的方向大胆。</p>
   </div>
   <div class="wrap">
     <div class="crit-chips rv">
-      <div class="cchip"><span class="ca">申报</span><div class="cc">(i)</div><div class="ct">礼仪建筑群杰作——以9座台基建筑群为锚点</div></div>
-      <div class="cchip"><span class="ca">申报</span><div class="cc">(iii)</div><div class="ct">特殊见证——最早大型偶像崇拜建筑＋制度化玉礼系统</div></div>
-      <div class="cchip"><span class="ca">申报</span><div class="cc">(iv)</div><div class="ct">类型范例——坛庙冢三合一礼仪建筑组合</div></div>
-      <div class="cchip opt"><span class="ca">可选</span><div class="cc">(ii)</div><div class="ct">跨区域交流——古基因组硬证据，需预演"影响方向"质疑</div></div>
+      <div class="cchip"><span class="ca">申报</span><div class="cc">(i)</div><div class="ct">礼仪建筑群杰作，以9座台基建筑群为锚点</div></div>
+      <div class="cchip"><span class="ca">申报</span><div class="cc">(iii)</div><div class="ct">特殊见证：最早大型偶像崇拜建筑＋制度化玉礼系统</div></div>
+      <div class="cchip"><span class="ca">申报</span><div class="cc">(iv)</div><div class="ct">类型范例：坛庙冢三合一礼仪建筑组合</div></div>
+      <div class="cchip opt"><span class="ca">可选</span><div class="cc">(ii)</div><div class="ct">跨区域交流：古基因组硬证据，需预演"影响方向"质疑</div></div>
       <div class="cchip opt" style="opacity:.4"><span class="ca" style="color:var(--risk-high)">不用</span><div class="cc" style="color:var(--ink-faint)">(vi)</div><div class="ct">与现存社群无直接活态关联，不可用</div></div>
     </div>
 
@@ -670,7 +719,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
 
     <div class="ouv-warn rv">
       <span class="wt">三条纪律</span>
-      <div>① <b>圜丘天文说</b>不进OUV，降为研究假说作注脚（钱基略先例：天文主张须有观测实证）；② <b>"惟玉为葬"</b>限定于高等级积石冢，不写全称判断；③ <b>放弃"都邑"定性</b>，回归"圣地/礼仪中心"——卡拉尔"Sacred City"命名与哥贝克力"解释不确定不妨碍入遗"双重先例支撑。类别上坚持"考古遗址组合"，不碰"文化景观"（卡纳克2025年被拒先例）。</div>
+      <div>① <b>圜丘天文说</b>不进OUV，降为研究假说作注脚（钱基略先例：天文主张须有观测实证）；② <b>"惟玉为葬"</b>限定于高等级积石冢，不写全称判断；③ <b>放弃"都邑"定性</b>，回归"圣地/礼仪中心"，其依据是卡拉尔"Sacred City"命名与哥贝克力"解释不确定不妨碍入遗"双重先例。类别上坚持"考古遗址组合"，不碰"文化景观"（卡纳克2025年被拒先例）。</div>
     </div>
   </div>
 </section>
@@ -680,20 +729,20 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="sec-head rv">
     <div class="sec-index"><span class="no">07</span><span class="rule"></span><span class="en">Roadmap</span></div>
     <h2>下一步工作路线图：<em>让最挑剔的眼睛先看过一遍</em></h2>
-    <p class="lede">程序、文本、证据、管理四条线并行。负面清单教给红山最朴素的一课：<b>在正式申报前，通过上游程序让ICOMOS先介入</b>——拉贾斯坦山地堡垒正是靠ICOMOS咨询任务把"不予列入"扭转为可修复的Referral。</p>
+    <p class="lede">程序、文本、证据、管理四条线并行。负面清单教给红山最朴素的一课：<b>在正式申报前，通过上游程序让ICOMOS先介入</b>。拉贾斯坦山地堡垒正是靠ICOMOS咨询任务把"不予列入"扭转为可修复的Referral。</p>
   </div>
   <div class="wrap">
     <div class="road rv">
       <div class="rstep">
         <span class="rdot"></span>
-        <div class="rw">NOW — 申报前12—18个月</div>
+        <div class="rw">NOW · 申报前12—18个月</div>
         <h4>更新 Tentative List（编号5804）</h4>
         <p>2013年报备文本距今已13年。若新文本的遗产构成、年代框架（5500—5000年 → 6000—4800年）或OUV主张与报备有实质差异，<b>必须先更新预备名单条目</b>，否则ICOMOS将以"遗产构成与报备不符"提出程序性质疑。</p>
         <div class="rtags"><span>程序红线</span><span>UNESCO报备</span></div>
       </div>
       <div class="rstep">
         <span class="rdot"></span>
-        <div class="rw">NOW — 持续</div>
+        <div class="rw">NOW · 持续</div>
         <h4>上游程序与初步评估</h4>
         <p>充分利用 Upstream Process 与 Preliminary Assessment 机制，正式提名前邀请ICOMOS介入咨询；延续2026年5月北京"红山文化遗址世界文化遗产价值国际专家研讨会"的方向，<b>让最挑剔的眼睛先看过一遍</b>。</p>
         <div class="rtags"><span>Upstream Process</span><span>国际专家咨询</span></div>
@@ -702,7 +751,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         <span class="rdot"></span>
         <div class="rw">文本工程</div>
         <h4>三遗址逐点"OUV贡献说明表"</h4>
-        <p>红山后（命名地与研究史见证）、魏家窝铺（早中期聚落，与牛河梁分属水系、早数百年）的OUV几乎全部由牛河梁承载——必须为每一点写出明确的贡献说明，主动解释年代差与水系分隔，否则就是<b>泉州剧本的史前版</b>。同步编制51处遗址点的分级纳入逻辑。</p>
+        <p>红山后（命名地与研究史见证）、魏家窝铺（早中期聚落，与牛河梁分属水系、早数百年）的OUV几乎全部由牛河梁承载，因此必须为每一点写出明确的贡献说明，主动解释年代差与水系分隔，否则就是<b>泉州剧本的史前版</b>。同步编制51处遗址点的分级纳入逻辑。</p>
         <div class="rtags"><span>贡献说明表</span><span>选点逻辑</span><span>比较分析</span></div>
       </div>
       <div class="rstep">
@@ -723,7 +772,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         <span class="rdot"></span>
         <div class="rw">证据管理</div>
         <h4>新发现刊布节奏</h4>
-        <p>台基建筑群发掘报告、郑家沟遗址报告尚未正式刊布——OUV声明引用的每一项新证据，都必须在评审启动前<b>可核验、可引用</b>。管理出版节奏，让证据链与申报时间轴对齐。</p>
+        <p>台基建筑群发掘报告、郑家沟遗址报告尚未正式刊布，因此OUV声明引用的每一项新证据，都必须在评审启动前<b>可核验、可引用</b>。管理出版节奏，让证据链与申报时间轴对齐。</p>
         <div class="rtags"><span>报告刊布</span><span>贝叶斯测年</span><span>证据可核验</span></div>
       </div>
     </div>
@@ -771,67 +820,67 @@ const SITES=[
 {id:'gobekli',cn:'哥贝克力石阵',en:'Göbekli Tepe',yr:'2018',bp:10800,cer:9.4,rg:'wa',crit:'(i)(ii)(iv)',tp:'ritual',mir:1,img:'img/gobekli.webp',note:'全球最早纪念性礼仪建筑，占"最早纪念性"位；无墓葬等级序列、无玉器系统。"解释不确定不妨碍入遗"的标杆。'},
 {id:'tellsultan',cn:'古耶利哥 / 苏丹丘',en:'Tell es-Sultan',yr:'2023',bp:10500,cer:3.0,rg:'wa',crit:'(iii)(iv)',tp:'settle',img:'img/tellsultan.webp',note:'新石器化与早期城市主义；OUV锚定29层居住地层叠压。聚落型，红山的反面对照。'},
 {id:'catalhoyuk',cn:'恰塔尔休于',en:'Çatalhöyük',yr:'2012',bp:8300,cer:3.5,rg:'wa',crit:'(iii)(iv)',tp:'settle',img:'img/catalhoyuk.webp',note:'"无街道城市"，平等主义社区样板；有壁画浮雕但无独立偶像殿堂。'},
-{id:'carnac',cn:'卡纳克巨石群',en:'Carnac Stones',yr:'2025',bp:6500,cer:6.6,rg:'eu',crit:'(i)(iv)',tp:'burial',mir:1,img:'img/carnac.webp',note:'2025年最新案例：标准(ii)被砍、文化景观类别被拒——ICOMOS对"过度申报"的修剪是常态操作。'},
+{id:'carnac',cn:'卡纳克巨石群',en:'Carnac Stones',yr:'2025',bp:6500,cer:6.6,rg:'eu',crit:'(i)(iv)',tp:'burial',mir:1,img:'img/carnac.webp',note:'2025年最新案例：标准(ii)被砍、文化景观类别被拒，说明ICOMOS对"过度申报"的修剪是常态操作。'},
 {id:'jomon',cn:'绳文遗址群',en:'Jōmon Sites',yr:'2021',bp:5030,cer:3.9,rg:'ea',crit:'(iii)(v)',tp:'settle',img:'img/sannai.webp',note:'定居狩猎采集社会＋精神文化；17点系列"做减法"的教科书；东亚最老文化遗产位已被其部分占据。'},
 {id:'malta',cn:'马耳他巨石神庙',en:'Megalithic Temples of Malta',yr:'1980/92',bp:4900,cer:9.0,rg:'eu',crit:'(iv)',tp:'ritual',img:'img/malta.webp',note:'最早独立石构神庙，类型学上最接近"庙"；但无坛—庙—冢三合一格局，雕像属室内陈设。'},
 {id:'bruna',cn:'博因河考古组合',en:'Brú na Bóinne',yr:'1993',bp:4950,cer:6.95,rg:'eu',crit:'(i)(iii)(iv)',tp:'burial',img:'img/newgrange.webp',note:'通道墓集中区，官方明确使用"ritual centre"定性；只有墓，无庙无坛。'},
-{id:'orkney',cn:'奥克尼新石器之心',en:'Heart of Neolithic Orkney',yr:'1999',bp:4460,cer:6.6,rg:'eu',crit:'(i)(ii)(iii)(iv)',tp:'burial',img:'img/brodgar.webp',note:'庙—墓—村组合，但含定居村落Skara Brae——与红山"礼仪中心独立于聚落"模式相反。'},
-{id:'stonehenge',cn:'巨石阵 · 埃夫伯里',en:'Stonehenge & Avebury',yr:'1986',bp:4350,cer:8.3,rg:'eu',crit:'(i)(ii)(iii)',tp:'ritual',img:'img/stonehenge.webp',note:'巨石纪念物景观；天文选址已进入OUV论证（标准iii）——红山圜丘天文说的对照镜。'},
-{id:'caral',cn:'卡拉尔—苏佩圣城',en:'Sacred City of Caral-Supe',yr:'2009',bp:4680,cer:7.55,rg:'am',crit:'(ii)(iii)(iv)',tp:'ritual',mir:1,img:'img/caral.webp',note:'与牛河梁完全同期的跨洲镜像：无陶器、无文字的礼仪驱动型复杂社会。"Sacred City"命名先例；含居住功能——红山比它更纯粹地位于礼仪中心一端。'},
+{id:'orkney',cn:'奥克尼新石器之心',en:'Heart of Neolithic Orkney',yr:'1999',bp:4460,cer:6.6,rg:'eu',crit:'(i)(ii)(iii)(iv)',tp:'burial',img:'img/brodgar.webp',note:'庙—墓—村组合，但含定居村落Skara Brae，因此与红山"礼仪中心独立于聚落"模式相反。'},
+{id:'stonehenge',cn:'巨石阵 · 埃夫伯里',en:'Stonehenge & Avebury',yr:'1986',bp:4350,cer:8.3,rg:'eu',crit:'(i)(ii)(iii)',tp:'ritual',img:'img/stonehenge.webp',note:'巨石纪念物景观；天文选址已进入OUV论证（标准iii），可作为红山圜丘天文说的对照镜。'},
+{id:'caral',cn:'卡拉尔—苏佩圣城',en:'Sacred City of Caral-Supe',yr:'2009',bp:4680,cer:7.55,rg:'am',crit:'(ii)(iii)(iv)',tp:'ritual',mir:1,img:'img/caral.webp',note:'与牛河梁完全同期的跨洲镜像：无陶器、无文字的礼仪驱动型复杂社会。"Sacred City"命名先例；由于卡拉尔含居住功能，红山比它更纯粹地位于礼仪中心一端。'},
 {id:'antequera',cn:'安特克拉支石墓',en:'Antequera Dolmens',yr:'2016',bp:4900,cer:5.9,rg:'eu',crit:'(i)(iii)(iv)',tp:'burial',img:'img/antequera.webp',note:'巨石墓葬＋自然地标，以"巨石＋山体朝向"关系著称。'},
 {id:'arslantepe',cn:'阿尔斯兰特佩',en:'Arslantepe',yr:'2021',bp:5050,cer:2.9,rg:'wa',crit:'(iii)',tp:'settle',img:'img/arslantepe.webp',note:'早期国家形成（非城市中心），"无文字的官僚制"；2021年被砍(ii)(iv)，仅以(iii)列入。'},
 {id:'poverty',cn:'波弗蒂角土墩',en:'Poverty Point',yr:'2014',bp:3400,cer:7.0,rg:'am',crit:'(iii)',tp:'ritual',img:'img/poverty.webp',note:'狩猎采集者纪念性土方工程；"此后2000年无人超越"的独特性表述获认可。'},
-{id:'gochang',cn:'韩国支石墓群',en:'Gochang Dolmens',yr:'2000',bp:2750,cer:5.0,rg:'ea',crit:'(iii)',tp:'burial',img:'img/gochang.webp',note:'东北亚巨石文化代表位已占——红山不可再走巨石墓葬路线。'},
+{id:'gochang',cn:'韩国支石墓群',en:'Gochang Dolmens',yr:'2000',bp:2750,cer:5.0,rg:'ea',crit:'(iii)',tp:'burial',img:'img/gochang.webp',note:'东北亚巨石文化代表位已占，因此红山不可再走巨石墓葬路线。'},
 {id:'chankillo',cn:'钱基略天文礼仪建筑群',en:'Chankillo',yr:'2021',bp:2250,cer:7.5,rg:'am',crit:'(i)(iv)',tp:'ritual',mir:1,img:'img/chankillo.webp',note:'首个以"考古天文建筑群"名义列入者：天文主张须有十三塔这样的观测实证方可进入OUV。'},
-{id:'hopewell',cn:'霍普韦尔礼仪土方',en:'Hopewell Ceremonial Earthworks',yr:'2023',bp:1800,cer:8.5,rg:'am',crit:'(i)(iii)',tp:'ritual',mir:1,img:'img/hopewell.webp',note:'与红山同构度最高的先例："空置礼仪中心"——无常住人口、跨区域物流。红山须论证多出"等级制度化"一环；出土器物被定位为"支撑证据而非属性"。'},
-{id:'nanmadol',cn:'南马都尔',en:'Nan Madol',yr:'2016',bp:900,cer:8.0,rg:'ea',crit:'(i)(iii)(iv)(vi)',tp:'ritual',img:'img/nanmadol.webp',note:'太平洋酋邦礼仪中心；2016年入遗即列入濒危——管理失控的极端警示。'},
+{id:'hopewell',cn:'霍普韦尔礼仪土方',en:'Hopewell Ceremonial Earthworks',yr:'2023',bp:1800,cer:8.5,rg:'am',crit:'(i)(iii)',tp:'ritual',mir:1,img:'img/hopewell.webp',note:'与红山同构度最高的先例是"空置礼仪中心"：无常住人口、跨区域物流。红山须论证多出"等级制度化"一环；出土器物被定位为"支撑证据而非属性"。'},
+{id:'nanmadol',cn:'南马都尔',en:'Nan Madol',yr:'2016',bp:900,cer:8.0,rg:'ea',crit:'(i)(iii)(iv)(vi)',tp:'ritual',img:'img/nanmadol.webp',note:'太平洋酋邦礼仪中心；2016年入遗即列入濒危，是管理失控的极端警示。'},
 {id:'liangzhu',cn:'良渚古城',en:'Liangzhu City',yr:'2019',bp:4800,cer:4.8,rg:'ea',crit:'(iii)(iv)',tp:'settle',mir:1,img:'img/liangzhu.webp',note:'已占"东亚新石器早期国家/城市"位；红山必须走"礼仪中心/礼制源头"的差异化路线，类型错位论证是答辩必答题。'},
 {id:'hongshan',cn:'红山文化遗址（牛河梁）',en:'Hongshan / Niuheliang',yr:'申报中',bp:5800,cer:9.5,rg:'hs',crit:'(i)(iii)(iv)',tp:'ritual',img:'img/niuheliang.webp',note:'距今5800年前后集中建成的9座台基建筑群，坛—庙—冢三合一，独立于聚落之外的大型礼仪中心。'}
 ];
 const RC={eu:'#b08d3c',wa:'#8d8577',am:'#5b7f9b',ea:'#a06a3c',hs:'#2e7d5b'};
 
 const NEGS=[
-{c:'A',cn:'泉州"古刺桐史迹"',en:'Quanzhou · 2018 不予列入',img:'img/quanzhou.webp',txt:'16个遗产点过于分散、无法反映城市肌理；声称不作为港口城市申报，比较分析却与港口城市比较——<b>框架自相矛盾</b>。',v:'判词："名录存在空白不是列入的理由"。三年重构更名后2021年入遗。<b>→ 红山三遗址的系列逻辑必须一次性写对。</b>'},
+{c:'A',cn:'泉州"古刺桐史迹"',en:'Quanzhou · 2018 不予列入',img:'img/quanzhou.webp',txt:'16个遗产点过于分散、无法反映城市肌理；声称不作为港口城市申报，比较分析却与港口城市比较，导致<b>框架自相矛盾</b>。',v:'判词："名录存在空白不是列入的理由"。三年重构更名后2021年入遗。<b>→ 红山三遗址的系列逻辑必须一次性写对。</b>'},
 {c:'A',cn:'纳姆堡大教堂',en:'Naumburg Cathedral · 三度不予列入建议',img:'img/naumburg.webp',txt:'ICOMOS第三次评估承认其真实性、完整性与保护管理<b>全部达标</b>，唯独OUV不成立。',v:'<b>→ 证明OUV是三支柱中具有否决权的一柱。</b>'},
 {c:'A',cn:'阿萨勒特城',en:'As-Salt · 2017 Deferral',img:'img/assalt.webp',txt:'"22栋建筑的价值不比奥斯曼地区同类城市更例外，且<b>不构成连贯整体</b>"。',v:'→ 约旦2019年推倒重写OUV（从建筑实体转向"包容与城市好客"的非物质价值），2021年入遗。'},
-{c:'B',cn:'博洛尼亚拱廊',en:'Porticoes of Bologna · 2021 Deferral',img:'img/bologna.webp',txt:'选点被批"<b>看似随机的目录</b>，不清楚组成部分如何选择"。',v:'→ "下一次提名不应是目录，而应是表达OUV的有机结构"——牛河梁51处遗址点的分级纳入逻辑必须预先编制。'},
+{c:'B',cn:'博洛尼亚拱廊',en:'Porticoes of Bologna · 2021 Deferral',img:'img/bologna.webp',txt:'选点被批"<b>看似随机的目录</b>，不清楚组成部分如何选择"。',v:'→ "下一次提名不应是目录，而应是表达OUV的有机结构"，因此牛河梁51处遗址点的分级纳入逻辑必须预先编制。'},
 {c:'B',cn:'马拉塔军事景观',en:'Maratha Military Landscapes · 2025',img:'img/raigad.webp',txt:'被要求围绕"反映马拉塔大规模领土防御战略的<b>层级化堡垒系列</b>"重构申报，甚至建议分两期提交。',v:'→ 系列遗产的层级叙事必须先于选点。'},
-{c:'B',cn:'拉贾斯坦山地堡垒',en:'Hill Forts of Rajasthan · 2012',img:'img/amber.webp',txt:'先获"不予列入"建议、委员会降为Referral；核心问题是"<b>选点方法需更详细</b>，以表明各组成部分呈现全地形范围内的各种类别"。',v:'→ 靠2012年ICOMOS咨询任务扭转，2013年入遗——上游程序的正面教材。'},
-{c:'B',cn:'阿尔卑斯木桩民居',en:'Alpine Pile Dwellings · 2011',img:'img/piledwellings.webp',txt:'ICOMOS来函"首要要求澄清<b>每个单一组成部分对整体OUV的贡献</b>"。',v:'→ 六国从约1000处遗址精选111处并逐点论证后入遗——"每点贡献说明表"是系列遗产的标配。'},
-{c:'C',cn:'博尔加尔',en:'Bolgar · 2013 Deferral建议',img:'img/bolgar.webp',txt:'<b>真实性存疑</b>，涉及大量重建。',v:'→ 委员会2014年翻盘列入——但红山不应把希望寄托在翻盘上。'},
-{c:'C',cn:'伯大尼洗礼地',en:'Bethany · 2015',img:'img/bethany.webp',txt:'"申报文件提供的证据<b>无法无疑地证明</b>考古遗迹确与耶稣受洗相关"，同时认定其关联价值例外，以(iii)(vi)推荐列入。',v:'→ 解释与实证分离的经典：女神庙"祭祀对象是谁"无法证明，不妨碍"偶像崇拜建筑存在"成立——前提是文本从一开始分开陈述。'},
+{c:'B',cn:'拉贾斯坦山地堡垒',en:'Hill Forts of Rajasthan · 2012',img:'img/amber.webp',txt:'先获"不予列入"建议、委员会降为Referral；核心问题是"<b>选点方法需更详细</b>，以表明各组成部分呈现全地形范围内的各种类别"。',v:'→ 靠2012年ICOMOS咨询任务扭转，2013年入遗，成为上游程序的正面教材。'},
+{c:'B',cn:'阿尔卑斯木桩民居',en:'Alpine Pile Dwellings · 2011',img:'img/piledwellings.webp',txt:'ICOMOS来函"首要要求澄清<b>每个单一组成部分对整体OUV的贡献</b>"。',v:'→ 六国从约1000处遗址精选111处并逐点论证后入遗，说明"每点贡献说明表"是系列遗产的标配。'},
+{c:'C',cn:'博尔加尔',en:'Bolgar · 2013 Deferral建议',img:'img/bolgar.webp',txt:'<b>真实性存疑</b>，涉及大量重建。',v:'→ 委员会2014年翻盘列入，但红山不应把希望寄托在翻盘上。'},
+{c:'C',cn:'伯大尼洗礼地',en:'Bethany · 2015',img:'img/bethany.webp',txt:'"申报文件提供的证据<b>无法无疑地证明</b>考古遗迹确与耶稣受洗相关"，同时认定其关联价值例外，以(iii)(vi)推荐列入。',v:'→ 解释与实证分离的经典：女神庙"祭祀对象是谁"无法证明，不妨碍"偶像崇拜建筑存在"成立，前提是文本从一开始分开陈述。'},
 {c:'D',cn:'卡纳克巨石群',en:'Carnac · 2025 标准削减',img:'img/carnac.webp',txt:'标准(ii)被砍、<b>文化景观类别被拒</b>。',v:'→ 红山类别上坚持"考古遗址组合"，不碰"文化景观"。'},
 {c:'D',cn:'阿尔斯兰特佩',en:'Arslantepe · 2021 标准削减',img:'img/arslantepe.webp',txt:'标准<b>(ii)(iv)被砍</b>，仅以(iii)列入。',v:'→ 被动接受修剪暴露对规则理解不深；主动精准申报展示学术诚实。'},
 {c:'D',cn:'霍普韦尔礼仪土方',en:'Hopewell · 2023 天文加注',img:'img/hopewell.webp',txt:'天文维度被加注"<b>证据不足</b>"。',v:'→ 圜丘天文说主动降级为研究假说，不进OUV。'},
-{c:'D',cn:'钱基略天文礼仪建筑群',en:'Chankillo · 2021 改名改标准',img:'img/chankillo.webp',txt:'被<b>改名改标准</b>后列入。',v:'→ 天文主张须有观测实证方可进入OUV——十三塔是实证，圜丘目前不是。'},
+{c:'D',cn:'钱基略天文礼仪建筑群',en:'Chankillo · 2021 改名改标准',img:'img/chankillo.webp',txt:'被<b>改名改标准</b>后列入。',v:'→ 天文主张须有观测实证方可进入OUV：十三塔是实证，圜丘目前不是。'},
 {c:'E',cn:'哥贝克力石阵',en:'Göbekli Tepe · 2018',img:'img/gobekli.webp',txt:'缺<b>风险预案</b>。',v:'→ 管理类问题以"决定附件要求"写入决议，成为定期报告的长期负债。'},
-{c:'E',cn:'良渚古城',en:'Liangzhu · 2019',img:'img/liangzhu.webp',txt:'被要求完善<b>游客管控与HIA</b>（遗产影响评估）。',v:'→ 中国项目管理侧整改项通常最多——这是ICOMOS明知委员会会放行时施加约束的主要工具。'},
+{c:'E',cn:'良渚古城',en:'Liangzhu · 2019',img:'img/liangzhu.webp',txt:'被要求完善<b>游客管控与HIA</b>（遗产影响评估）。',v:'→ 中国项目管理侧整改项通常最多，因为这是ICOMOS明知委员会会放行时施加约束的主要工具。'},
 {c:'E',cn:'南马都尔',en:'Nan Madol · 2016',img:'img/nanmadol.webp',txt:'<b>入遗即列入濒危</b>名录。',v:'→ 保护状况失控的极端警示。'},
 {c:'E',cn:'绳文遗址群',en:'Jōmon Sites · 2021',img:'img/sannai.webp',txt:'被要求持续清除"<b>不合规元素</b>"。',v:'→ 遗址公园展示设施、女神庙保护展示馆的设计介入程度，是现场考察的固定检查点。'}
 ];
 
 const RISKS=[
-{no:'01',t:'坛 · 圜丘两分两至',sub:'天文对应说',rk:'high',rl:'高风险',ev:'C',basis:'圜丘与两分两至日出的天文对应缺乏观测实证与统计检验，属<b>C层假说</b>。钱基略以十三塔观测实证才获(i)(iv)；霍普韦尔的天文维度被加注"证据不足"——ICOMOS对天文主张的审查门槛极高。',fix:'写<b>形制与宇宙观表达</b>：三重圆坛作为"以圆形几何秩序组织礼仪空间"的物质遗存（卡拉尔下沉圆广场为同期平行实验，提供形态学旁证）；天文对应降为"研究中的假说"，以注脚形式呈现。'},
-{no:'02',t:'庙 · 宗庙 / 偶像崇拜',sub:'女神庙定性',rk:'mid',rl:'中风险',ev:'A/B',basis:'多室殿堂格局、成组等身及超等身泥塑神像群（至少6个个体，最大为真人三倍）有<b>A层证据</b>；"宗庙"定性涉及祭祀对象解释，属B层。',fix:'主张"<b>东亚地区迄今所见年代最早的大型偶像崇拜建筑遗存</b>"——"最早＋大型＋偶像崇拜建筑"三点均有A层支撑；祭祀对象是谁不作断言（伯大尼先例：解释与实证分离）。'},
+{no:'01',t:'坛 · 圜丘两分两至',sub:'天文对应说',rk:'high',rl:'高风险',ev:'C',basis:'圜丘与两分两至日出的天文对应缺乏观测实证与统计检验，属<b>C层假说</b>。钱基略以十三塔观测实证才获(i)(iv)；霍普韦尔的天文维度被加注"证据不足"。这些案例说明ICOMOS对天文主张的审查门槛极高。',fix:'写<b>形制与宇宙观表达</b>：三重圆坛作为"以圆形几何秩序组织礼仪空间"的物质遗存（卡拉尔下沉圆广场为同期平行实验，提供形态学旁证）；天文对应降为"研究中的假说"，以注脚形式呈现。'},
+{no:'02',t:'庙 · 宗庙 / 偶像崇拜',sub:'女神庙定性',rk:'mid',rl:'中风险',ev:'A/B',basis:'多室殿堂格局、成组等身及超等身泥塑神像群（至少6个个体，最大为真人三倍）有<b>A层证据</b>；"宗庙"定性涉及祭祀对象解释，属B层。',fix:'主张"<b>东亚地区迄今所见年代最早的大型偶像崇拜建筑遗存</b>"，其依据是"最早＋大型＋偶像崇拜建筑"三点均有A层支撑；祭祀对象是谁不作断言（伯大尼先例：解释与实证分离）。'},
 {no:'03',t:'冢 · 惟玉为葬',sub:'葬玉制度',rk:'low',rl:'低风险',ev:'A',basis:'高等级积石冢随葬器物几乎唯玉，有发掘统计支撑；但作为<b>全称判断</b>存在反例风险（低等级墓、区域差异）。',fix:'限定为"<b>高等级积石冢唯玉为葬</b>"；以墓葬级差与器物组合关系为属性，器物清单作支撑证据（霍普韦尔先例）。'},
 {no:'04',t:'轴线 · "中轴线"',sub:'空间秩序表述',rk:'midhigh',rl:'中高风险',ev:'B',basis:'"中轴线"是后世都城制度概念，用于史前遗址易被质疑为<b>现代建构</b>；但坛庙冢的近南北向秩序有空间分析支撑。',fix:'以"<b>礼仪性秩序的近南北向景观</b>"替代"中轴线"；以贝叶斯测年证明营建时段集中（5800—5200BP），以空间分析证明方向秩序，以出土情境证明功能分化。'},
 {no:'05',t:'玉礼系统',sub:'玉礼制源头',rk:'low',rl:'低/中风险',ev:'A',basis:'玦形玉龙、勾云形佩、斜口筒形器等器类系统完整，可上接距今约9000年小南山—兴隆洼用玉传统；"源头"表述需防<b>线性史观</b>质疑。',fix:'主张"<b>全球最早的系统玉礼传统之一</b>"＋连续谱系证据链；写"由积石冢出土情境承载的礼制证据"，不把器物清单当属性。'},
 {no:'06',t:'南北交汇',sub:'跨区域交流 · 标准(ii)',rk:'mid',rl:'中风险',ev:'A/B',basis:'郑家沟古基因组（24例人骨全基因组测序）证实直接遗传联系，是标准(ii)语境下<b>极罕见的硬证据</b>；但郑家沟不在遗产范围内，"影响方向与机制"需额外论证。',fix:'考虑申报标准(ii)作为<b>可选项</b>；备齐古基因组＋玉礼器组合＋仰韶特征彩陶三重证据链；正式申报前通过上游程序就(ii)的策略咨询ICOMOS（卡纳克被砍(ii)先例）。'},
-{no:'07',t:'文明延续',sub:'"中华文明的直根系"',rk:'high',rl:'高风险',ev:'C',basis:'红山约5000BP因气候衰落，与后世<b>不存在可证的直线谱系传承</b>；"直根系"表述易被以"民族叙事"质疑，属C层。',fix:'改"谱系延续"为"<b>持久影响</b>"（enduring influence）；把气候衰亡写进叙事反而增加可信度——回应"红山衰亡与文明连续性表述的关系"时主动陈述。'},
-{no:'08',t:'都邑定性',sub:'牛河梁＝都邑？',rk:'high',rl:'高→低风险',ev:'—',basis:'牛河梁至今<b>未发现同期居住区证据</b>，"都邑"定性不成立；哥贝克力先例证明解释不确定不妨碍入遗。',fix:'放弃"都邑"，回归"<b>圣地/礼仪中心</b>"：卡拉尔官方名"Sacred City"证明该定性在ICOMOS体系中被接受；红山比卡拉尔更纯粹地位于礼仪中心一端——差异即独特性。'}
+{no:'07',t:'文明延续',sub:'"中华文明的直根系"',rk:'high',rl:'高风险',ev:'C',basis:'红山约5000BP因气候衰落，与后世<b>不存在可证的直线谱系传承</b>；"直根系"表述易被以"民族叙事"质疑，属C层。',fix:'改"谱系延续"为"<b>持久影响</b>"（enduring influence）；把气候衰亡写进叙事反而增加可信度，回应"红山衰亡与文明连续性表述的关系"时应主动陈述。'},
+{no:'08',t:'都邑定性',sub:'牛河梁＝都邑？',rk:'high',rl:'高→低风险',ev:'—',basis:'牛河梁至今<b>未发现同期居住区证据</b>，"都邑"定性不成立；哥贝克力先例证明解释不确定不妨碍入遗。',fix:'放弃"都邑"，回归"<b>圣地/礼仪中心</b>"：卡拉尔官方名"Sacred City"证明该定性在ICOMOS体系中被接受；红山比卡拉尔更纯粹地位于礼仪中心一端，这种差异即独特性。'}
 ];
 
 const QAS=[
-{q:'为什么魏家窝铺（早千年）和红山后（命名地）属于同一OUV？',a:'<b>每点贡献说明表。</b>红山后是命名地与研究史见证，魏家窝铺是早中期聚落（文化谱系连续性证据），牛河梁是礼仪高峰——逐点写明对OUV的贡献，主动解释年代差与水系分隔。'},
-{q:'与良渚的关系是什么，是否重复？',a:'<b>类型错位论证。</b>良渚是"早期国家/城市"，红山是"礼仪中心/礼制源头"——同文化圈内的两种社会复杂化路径，互补而非重复。'},
+{q:'为什么魏家窝铺（早千年）和红山后（命名地）属于同一OUV？',a:'<b>每点贡献说明表。</b>红山后是命名地与研究史见证，魏家窝铺是早中期聚落（文化谱系连续性证据），牛河梁是礼仪高峰。需要逐点写明对OUV的贡献，主动解释年代差与水系分隔。'},
+{q:'与良渚的关系是什么，是否重复？',a:'<b>类型错位论证。</b>良渚是"早期国家/城市"，红山是"礼仪中心/礼制源头"，二者代表同文化圈内的两种社会复杂化路径，互补而非重复。'},
 {q:'与霍普韦尔、哥贝克力相比，红山的新信息是什么？',a:'<b>礼仪制度化＋玉礼系统＋偶像建筑。</b>比霍普韦尔多出等级制度化（积石冢级差、玉器组合规则），比哥贝克力多出坛庙冢三合一的完整体系。'},
-{q:'圜丘天文功能的证据等级？',a:'<b>主动降级。</b>承认为研究中的假说，不进OUV——展示学术诚实，避免被动修剪。'},
+{q:'圜丘天文功能的证据等级？',a:'<b>主动降级。</b>承认为研究中的假说，不进OUV，以此展示学术诚实，避免被动修剪。'},
 {q:'"惟玉为葬"的统计边界？',a:'<b>限定于高等级墓。</b>提供墓葬分级与随葬品统计表，不写全称判断。'},
-{q:'玉器作为可移动文物如何承载OUV？',a:'<b>以出土情境与组合关系为属性</b>，器物为支撑证据——严格遵循霍普韦尔评估确立的定位。'},
+{q:'玉器作为可移动文物如何承载OUV？',a:'<b>以出土情境与组合关系为属性</b>，器物为支撑证据，严格遵循霍普韦尔评估确立的定位。'},
 {q:'年代系统为何有公元前3700—前3100与距今5800两套？',a:'<b>给出树轮校正报告与贝叶斯新测年的衔接说明</b>，统一口径并解释方法论差异。'},
-{q:'红山衰亡与"文明连续性"表述的关系？',a:'<b>改"谱系延续"为"深远影响"。</b>把约5000BP的气候衰亡写进叙事——承认断裂反而增加可信度。'},
+{q:'红山衰亡与"文明连续性"表述的关系？',a:'<b>改"谱系延续"为"深远影响"。</b>把约5000BP的气候衰亡写进叙事，承认断裂反而增加可信度。'},
 {q:'三遗址跨省统一管理如何保障？',a:'<b>法律授权文件与联合管理机构实证。</b>辽宁、内蒙古两地的协调机制须有形文件支撑，而非承诺。'},
-{q:'遗址点选择原则？',a:'<b>51处遗址点的分级纳入逻辑与扩展接口。</b>为什么是这些点、新发现地点为何不纳入/纳入——预先编制贡献论证表。'}
+{q:'遗址点选择原则？',a:'<b>51处遗址点的分级纳入逻辑与扩展接口。</b>需要预先编制贡献论证表，说明为什么选择这些点，以及新发现地点为何纳入或不纳入。'}
 ];
 </script>
 
