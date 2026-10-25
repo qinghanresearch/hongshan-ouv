@@ -303,19 +303,132 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 /* reveal */
 .rv{opacity:0;transform:translateY(46px)}
+
+/* ---------- navigation, touch & mobile ---------- */
+.nav-toggle{display:none;background:var(--bg2);border:1px solid var(--line);color:var(--gold-dim);font-family:var(--sans);font-size:12px;letter-spacing:.12em;padding:9px 13px;cursor:pointer}
+.scatter-scroll{width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.scatter-hint{display:none;color:var(--ink-faint);font-size:11px;line-height:1.6;margin:8px 8px 0}
+#lightbox{padding:24px;overflow:hidden}
+#lightbox img{max-width:94vw;max-height:84vh;object-fit:contain;transform-origin:center center;transition:transform .2s ease;cursor:grab;touch-action:none;user-select:none;-webkit-user-drag:none}
+#lightbox img.dragging{cursor:grabbing;transition:none}
+.lb-tools{position:absolute;top:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:2}
+.lb-tools button{width:42px;height:42px;border:1px solid rgba(255,255,255,.35);background:rgba(30,27,22,.72);color:#fff;font-size:20px;cursor:pointer}
+.lb-tools .lb-close{width:auto;padding:0 16px;font-size:13px;letter-spacing:.08em}
+.lb-hint{position:absolute;bottom:16px;left:16px;right:16px;text-align:center;color:rgba(255,255,255,.72);font-size:11px;pointer-events:none}
+
+@media(max-width:900px){
+  .nav-toggle{display:block;flex:none}
+  .nav-links{position:absolute;top:100%;left:4vw;right:4vw;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:10px 18px;background:rgba(251,248,241,.98);border:1px solid var(--line-soft);box-shadow:0 20px 45px rgba(70,55,25,.14);backdrop-filter:blur(16px);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility .25s}
+  .nav.menu-open .nav-links{opacity:1;visibility:visible;transform:none}
+  .nav-links a{padding:12px 2px;border-bottom:1px solid var(--line-soft);font-size:13px}
+  .nav-links a:last-child{border-bottom:none}
+  .scatter-hint{display:block}
+}
+
+@media(max-width:600px){
+  body{line-height:1.75}
+  nav{padding:13px 20px}
+  .nav-brand{font-size:13px;letter-spacing:.22em}
+  .nav-brand small{font-size:8px;letter-spacing:.17em}
+  .hero{min-height:100svh}
+  .hero-inner{padding:118px 20px 52px}
+  .hero-kicker{font-size:10px;letter-spacing:.24em;gap:10px;margin-bottom:20px}
+  .hero-kicker::before{width:28px;flex:none}
+  .hero h1{font-size:clamp(30px,9.5vw,43px);line-height:1.22;letter-spacing:.02em}
+  .hero-sub{margin-top:20px;font-size:14px;line-height:1.85}
+  .hero-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:28px;padding-top:4px}
+  .hstat{min-width:0;margin:0;padding:17px 10px 12px 0;border-right:none;border-bottom:1px solid var(--line-soft)}
+  .hstat:nth-last-child(-n+2){border-bottom:none}
+  .hstat .num{font-size:35px}
+  .hstat .lbl{font-size:10px;letter-spacing:.08em;line-height:1.55;margin-top:7px}
+  .scroll-hint{display:none}
+  section{padding:72px 20px}
+  .sec-head{margin-bottom:38px}
+  .sec-index{gap:10px;margin-bottom:14px}
+  .sec-index .en{font-size:10px;letter-spacing:.16em;line-height:1.5}
+  .sec-head h2{font-size:clamp(26px,8vw,36px)}
+  .sec-head p.lede{margin-top:16px;font-size:14px}
+  .wrap{width:100%;min-width:0}
+  .pillars{margin-bottom:48px}
+  .pillar{padding:26px 22px}
+  .pillar .veto{position:static;display:inline-block;margin:0 0 12px}
+  .tier{padding:24px 20px}
+  .flip-band{padding:24px 20px;gap:18px;margin-bottom:48px}
+  .flip-num{font-size:48px}
+  .flip-txt{min-width:0;font-size:13px}
+  .goal-chip{margin-left:0;text-align:left}
+  .proc-steps{grid-template-columns:1fr;gap:24px}
+  .scatter-box{padding:20px 12px 14px}
+  .scatter-head{padding:0 8px}
+  .scatter-head h3{font-size:17px;line-height:1.6}
+  .scatter-head .lg{gap:9px 12px;font-size:10.5px}
+  #scatter{min-width:780px;max-width:none}
+  .vacancy-note{flex-direction:column;gap:8px;padding:16px}
+  .vacancy-note .vn-tag{white-space:normal}
+  .gal-filter{margin:36px 0 20px;gap:8px}
+  .gf-btn{padding:8px 12px;font-size:11px;letter-spacing:.06em}
+  .gal{grid-template-columns:minmax(0,1fr)}
+  .neg-grid{grid-template-columns:minmax(0,1fr)}
+  .ncard .nimg{width:108px;min-height:118px}
+  .ncard .nhead{padding:14px}
+  .ncard .ncat{letter-spacing:.1em}
+  .ncard .nbody{padding:0 14px 16px}
+  .ncard .nverdict{margin: auto 14px 14px}
+  .attr .aimg{height:190px}
+  .attr .aimg::after{background:linear-gradient(to top,var(--bg2),transparent 48%)}
+  .attr .abody{padding:22px 20px}
+  .risk-row{grid-template-columns:28px minmax(0,1fr) 24px;gap:10px;padding:16px 14px}
+  .risk-row .rbadge{grid-column:2;grid-row:2;justify-self:start;padding:3px 8px}
+  .risk-row .arrow{grid-column:3;grid-row:1 / span 2}
+  .risk-detail .rd-in{padding:20px 16px;gap:18px}
+  .risk-detail .fix{padding-left:14px}
+  .qa{margin-top:60px}
+  .qa-q{grid-template-columns:32px minmax(0,1fr) 20px;gap:10px;padding:18px 4px}
+  .qa-a p{padding:0 4px 22px;font-size:12.5px}
+  .crit-chips{gap:10px;margin-bottom:30px}
+  .cchip{width:100%;min-width:0;padding:14px 18px}
+  .ouv-cn{padding:32px 20px 24px}
+  .ouv-cn::before{left:20px}
+  .ouv-cn p{font-size:16px;line-height:2}
+  .ouv-en-toggle{text-align:left}
+  .ouv-en-toggle button{padding:9px 14px;letter-spacing:.12em}
+  .ouv-warn{flex-direction:column;padding:18px;margin-top:30px}
+  .ouv-warn .wt{white-space:normal}
+  .rstep{padding-left:34px}
+  .chart{padding:8px}
+  #tooltip{width:min(264px,calc(100vw - 24px))}
+  #lightbox{padding:64px 12px 52px}
+  #lightbox img{max-width:96vw;max-height:76vh}
+  footer{padding:42px 20px 52px}
+  footer .f1{font-size:13px;letter-spacing:.2em}
+  footer .f3{letter-spacing:.18em;line-height:1.8}
+}
+
+@media(max-width:360px){
+  .hero h1{font-size:30px}
+  .ncard .ntop{display:block}
+  .ncard .nimg{width:100%;height:170px}
+  .risk-row{grid-template-columns:24px minmax(0,1fr) 20px;padding:15px 10px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
 
-<nav id="nav">
+<nav id="nav" aria-label="页面导航">
   <div class="nav-brand">红山申遗<small>HONGSHAN · WORLD HERITAGE</small></div>
-  <div class="nav-links">
+  <div class="nav-links" id="navLinks">
     <a href="#s1">评审机制</a><a href="#s2">跨文明比较</a><a href="#s3">负面清单</a><a href="#s4">红山占位</a><a href="#s5">命题风险</a><a href="#s6">推荐OUV</a><a href="#s7">路线图</a>
   </div>
+  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="打开章节导航">章节导航</button>
 </nav>
 
 <header class="hero">
-  <div class="hero-bg"><img src="img/niuheliang.png" alt="牛河梁遗址航拍"></div>
+  <div class="hero-bg"><img src="img/niuheliang.webp" alt="牛河梁遗址航拍" fetchpriority="high" decoding="async"></div>
   <div class="hero-inner">
     <div class="hero-kicker">世界遗产申报 · ICOMOS评估预判研究</div>
     <h1>红山文化申遗<br><em>跨文明坐标下的价值与风险</em></h1>
@@ -419,7 +532,10 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
           <span><i style="background:#a06a3c"></i>东亚/大洋洲</span>
         </div>
       </div>
-      <svg id="scatter" viewBox="0 0 1160 600" role="img" aria-label="跨文明比较坐标图"></svg>
+      <div class="scatter-scroll" tabindex="0" aria-label="可左右滚动的跨文明比较坐标图">
+        <svg id="scatter" viewBox="0 0 1160 600" role="img" aria-label="跨文明比较坐标图"></svg>
+      </div>
+      <p class="scatter-hint">左右滑动查看完整坐标图；点按遗产点位可查看图片与档案。</p>
       <div class="vacancy-note">
         <span class="vn-tag">空位判读</span>
         <p>为便于辨认，相邻点位在年代轴上做了一百至两百年内的示意性错开。虚线椭圆内：<b>东亚新石器礼仪中心</b>是名录真空。最危险的撞车不是良渚，而是<b>霍普韦尔</b>（空置礼仪中心）与<b>哥贝克力</b>（最早纪念性）——红山文本必须主动论证差异：比霍普韦尔多出"等级制度化"，比哥贝克力多出"坛庙冢三合一体系"。卡拉尔—苏佩的"Sacred City"命名先例，则为红山回归"圣地"定位提供了ICOMOS体系内的合法名分。</p>
@@ -467,7 +583,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="wrap">
     <div class="attr-grid rv">
       <div class="attr">
-        <div class="aimg"><img src="img/niuheliang.png" alt="牛河梁遗址"></div>
+        <div class="aimg"><img src="img/niuheliang.webp" alt="牛河梁遗址"></div>
         <div class="abody">
           <div class="ano">ATTRIBUTE 01</div>
           <h4>大型偶像崇拜建筑与成组泥塑神像群</h4>
@@ -475,7 +591,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         </div>
       </div>
       <div class="attr">
-        <div class="aimg"><img src="img/yuzhulong.png" alt="玉猪龙"></div>
+        <div class="aimg"><img src="img/yuzhulong.webp" alt="玉猪龙"></div>
         <div class="abody">
           <div class="ano">ATTRIBUTE 02</div>
           <h4>体系化玉礼器系统与9000年证据链</h4>
@@ -483,7 +599,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         </div>
       </div>
       <div class="attr">
-        <div class="aimg"><img src="img/cdragon.png" alt="C形玉龙"></div>
+        <div class="aimg"><img src="img/cdragon.webp" alt="C形玉龙"></div>
         <div class="abody">
           <div class="ano">ATTRIBUTE 03</div>
           <h4>"无城、无文字、无金属"的礼仪驱动路径</h4>
@@ -491,7 +607,7 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
         </div>
       </div>
       <div class="attr">
-        <div class="aimg"><img src="img/liangzhu.png" alt="对照：良渚"></div>
+        <div class="aimg"><img src="img/liangzhu.webp" alt="对照：良渚"></div>
         <div class="abody">
           <div class="ano">ATTRIBUTE 04</div>
           <h4>坛、庙、冢三要素同一规划单元共存</h4>
@@ -618,14 +734,14 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
 <section id="appendix" style="padding-top:6vh">
   <div class="sec-head rv">
     <div class="sec-index"><span class="no">附</span><span class="rule"></span><span class="en">Research Charts</span></div>
-    <h2 style="font-size:clamp(22px,2.6vw,34px)">研究底稿图版 <em>（点击放大）</em></h2>
+    <h2 style="font-size:clamp(22px,2.6vw,34px)">研究底稿图版 <em>（点击放大，可缩放）</em></h2>
   </div>
   <div class="wrap">
     <div class="charts rv">
-      <figure class="chart"><img src="img/chart1.png" alt="命题证据分级与风险总览"><figcaption>图1 · 命题证据分级与风险总览</figcaption></figure>
-      <figure class="chart"><img src="img/chart2.png" alt="红山文化与比较遗产年代坐标"><figcaption>图2 · 红山文化与比较遗产年代坐标</figcaption></figure>
-      <figure class="chart"><img src="img/chart3.png" alt="类型学定位与名录占位"><figcaption>图3 · 类型学定位与名录占位</figcaption></figure>
-      <figure class="chart"><img src="img/chart4.png" alt="负面清单归因图谱"><figcaption>图4 · 负面清单归因图谱</figcaption></figure>
+      <figure class="chart"><img src="img/chart1.png" alt="命题证据分级与风险总览" loading="lazy" decoding="async"><figcaption>图1 · 命题证据分级与风险总览</figcaption></figure>
+      <figure class="chart"><img src="img/chart2.png" alt="红山文化与比较遗产年代坐标" loading="lazy" decoding="async"><figcaption>图2 · 红山文化与比较遗产年代坐标</figcaption></figure>
+      <figure class="chart"><img src="img/chart3.png" alt="类型学定位与名录占位" loading="lazy" decoding="async"><figcaption>图3 · 类型学定位与名录占位</figcaption></figure>
+      <figure class="chart"><img src="img/chart4.png" alt="负面清单归因图谱" loading="lazy" decoding="async"><figcaption>图4 · 负面清单归因图谱</figcaption></figure>
     </div>
   </div>
 </section>
@@ -636,54 +752,62 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="f3">HONGSHAN WORLD HERITAGE NOMINATION · STRATEGY BRIEFING · 2026</div>
 </footer>
 
-<div id="tooltip"></div>
-<div id="lightbox"><img src="" alt=""></div>
+<div id="tooltip" role="status" aria-live="polite"></div>
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="研究图版放大预览">
+  <div class="lb-tools">
+    <button type="button" class="lb-zoom-out" aria-label="缩小">−</button>
+    <button type="button" class="lb-zoom-in" aria-label="放大">＋</button>
+    <button type="button" class="lb-close" aria-label="关闭图版">关闭</button>
+  </div>
+  <img src="" alt="放大的研究图版" draggable="false">
+  <div class="lb-hint">使用按钮或双指缩放；放大后可拖动查看细节</div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 /* ================= DATA ================= */
 const SITES=[
-{id:'gobekli',cn:'哥贝克力石阵',en:'Göbekli Tepe',yr:'2018',bp:10800,cer:9.4,rg:'wa',crit:'(i)(ii)(iv)',tp:'ritual',mir:1,img:'img/gobekli.png',note:'全球最早纪念性礼仪建筑，占"最早纪念性"位；无墓葬等级序列、无玉器系统。"解释不确定不妨碍入遗"的标杆。'},
-{id:'tellsultan',cn:'古耶利哥 / 苏丹丘',en:'Tell es-Sultan',yr:'2023',bp:10500,cer:3.0,rg:'wa',crit:'(iii)(iv)',tp:'settle',img:'img/tellsultan.jpg',note:'新石器化与早期城市主义；OUV锚定29层居住地层叠压。聚落型，红山的反面对照。'},
-{id:'catalhoyuk',cn:'恰塔尔休于',en:'Çatalhöyük',yr:'2012',bp:8300,cer:3.5,rg:'wa',crit:'(iii)(iv)',tp:'settle',img:'img/catalhoyuk.jpg',note:'"无街道城市"，平等主义社区样板；有壁画浮雕但无独立偶像殿堂。'},
-{id:'carnac',cn:'卡纳克巨石群',en:'Carnac Stones',yr:'2025',bp:6500,cer:6.6,rg:'eu',crit:'(i)(iv)',tp:'burial',mir:1,img:'img/carnac.jpg',note:'2025年最新案例：标准(ii)被砍、文化景观类别被拒——ICOMOS对"过度申报"的修剪是常态操作。'},
-{id:'jomon',cn:'绳文遗址群',en:'Jōmon Sites',yr:'2021',bp:5030,cer:3.9,rg:'ea',crit:'(iii)(v)',tp:'settle',img:'img/sannai.jpg',note:'定居狩猎采集社会＋精神文化；17点系列"做减法"的教科书；东亚最老文化遗产位已被其部分占据。'},
-{id:'malta',cn:'马耳他巨石神庙',en:'Megalithic Temples of Malta',yr:'1980/92',bp:4900,cer:9.0,rg:'eu',crit:'(iv)',tp:'ritual',img:'img/malta.png',note:'最早独立石构神庙，类型学上最接近"庙"；但无坛—庙—冢三合一格局，雕像属室内陈设。'},
-{id:'bruna',cn:'博因河考古组合',en:'Brú na Bóinne',yr:'1993',bp:4950,cer:6.95,rg:'eu',crit:'(i)(iii)(iv)',tp:'burial',img:'img/newgrange.jpg',note:'通道墓集中区，官方明确使用"ritual centre"定性；只有墓，无庙无坛。'},
-{id:'orkney',cn:'奥克尼新石器之心',en:'Heart of Neolithic Orkney',yr:'1999',bp:4460,cer:6.6,rg:'eu',crit:'(i)(ii)(iii)(iv)',tp:'burial',img:'img/brodgar.jpg',note:'庙—墓—村组合，但含定居村落Skara Brae——与红山"礼仪中心独立于聚落"模式相反。'},
-{id:'stonehenge',cn:'巨石阵 · 埃夫伯里',en:'Stonehenge & Avebury',yr:'1986',bp:4350,cer:8.3,rg:'eu',crit:'(i)(ii)(iii)',tp:'ritual',img:'img/stonehenge.png',note:'巨石纪念物景观；天文选址已进入OUV论证（标准iii）——红山圜丘天文说的对照镜。'},
-{id:'caral',cn:'卡拉尔—苏佩圣城',en:'Sacred City of Caral-Supe',yr:'2009',bp:4680,cer:7.55,rg:'am',crit:'(ii)(iii)(iv)',tp:'ritual',mir:1,img:'img/caral.jpg',note:'与牛河梁完全同期的跨洲镜像：无陶器、无文字的礼仪驱动型复杂社会。"Sacred City"命名先例；含居住功能——红山比它更纯粹地位于礼仪中心一端。'},
-{id:'antequera',cn:'安特克拉支石墓',en:'Antequera Dolmens',yr:'2016',bp:4900,cer:5.9,rg:'eu',crit:'(i)(iii)(iv)',tp:'burial',img:'img/antequera.jpg',note:'巨石墓葬＋自然地标，以"巨石＋山体朝向"关系著称。'},
-{id:'arslantepe',cn:'阿尔斯兰特佩',en:'Arslantepe',yr:'2021',bp:5050,cer:2.9,rg:'wa',crit:'(iii)',tp:'settle',img:'img/arslantepe.jpg',note:'早期国家形成（非城市中心），"无文字的官僚制"；2021年被砍(ii)(iv)，仅以(iii)列入。'},
-{id:'poverty',cn:'波弗蒂角土墩',en:'Poverty Point',yr:'2014',bp:3400,cer:7.0,rg:'am',crit:'(iii)',tp:'ritual',img:'img/poverty.jpg',note:'狩猎采集者纪念性土方工程；"此后2000年无人超越"的独特性表述获认可。'},
-{id:'gochang',cn:'韩国支石墓群',en:'Gochang Dolmens',yr:'2000',bp:2750,cer:5.0,rg:'ea',crit:'(iii)',tp:'burial',img:'img/gochang.jpg',note:'东北亚巨石文化代表位已占——红山不可再走巨石墓葬路线。'},
-{id:'chankillo',cn:'钱基略天文礼仪建筑群',en:'Chankillo',yr:'2021',bp:2250,cer:7.5,rg:'am',crit:'(i)(iv)',tp:'ritual',mir:1,img:'img/chankillo.jpg',note:'首个以"考古天文建筑群"名义列入者：天文主张须有十三塔这样的观测实证方可进入OUV。'},
-{id:'hopewell',cn:'霍普韦尔礼仪土方',en:'Hopewell Ceremonial Earthworks',yr:'2023',bp:1800,cer:8.5,rg:'am',crit:'(i)(iii)',tp:'ritual',mir:1,img:'img/hopewell.png',note:'与红山同构度最高的先例："空置礼仪中心"——无常住人口、跨区域物流。红山须论证多出"等级制度化"一环；出土器物被定位为"支撑证据而非属性"。'},
-{id:'nanmadol',cn:'南马都尔',en:'Nan Madol',yr:'2016',bp:900,cer:8.0,rg:'ea',crit:'(i)(iii)(iv)(vi)',tp:'ritual',img:'img/nanmadol.jpg',note:'太平洋酋邦礼仪中心；2016年入遗即列入濒危——管理失控的极端警示。'},
-{id:'liangzhu',cn:'良渚古城',en:'Liangzhu City',yr:'2019',bp:4800,cer:4.8,rg:'ea',crit:'(iii)(iv)',tp:'settle',mir:1,img:'img/liangzhu.png',note:'已占"东亚新石器早期国家/城市"位；红山必须走"礼仪中心/礼制源头"的差异化路线，类型错位论证是答辩必答题。'},
-{id:'hongshan',cn:'红山文化遗址（牛河梁）',en:'Hongshan / Niuheliang',yr:'申报中',bp:5800,cer:9.5,rg:'hs',crit:'(i)(iii)(iv)',tp:'ritual',img:'img/niuheliang.png',note:'距今5800年前后集中建成的9座台基建筑群，坛—庙—冢三合一，独立于聚落之外的大型礼仪中心。'}
+{id:'gobekli',cn:'哥贝克力石阵',en:'Göbekli Tepe',yr:'2018',bp:10800,cer:9.4,rg:'wa',crit:'(i)(ii)(iv)',tp:'ritual',mir:1,img:'img/gobekli.webp',note:'全球最早纪念性礼仪建筑，占"最早纪念性"位；无墓葬等级序列、无玉器系统。"解释不确定不妨碍入遗"的标杆。'},
+{id:'tellsultan',cn:'古耶利哥 / 苏丹丘',en:'Tell es-Sultan',yr:'2023',bp:10500,cer:3.0,rg:'wa',crit:'(iii)(iv)',tp:'settle',img:'img/tellsultan.webp',note:'新石器化与早期城市主义；OUV锚定29层居住地层叠压。聚落型，红山的反面对照。'},
+{id:'catalhoyuk',cn:'恰塔尔休于',en:'Çatalhöyük',yr:'2012',bp:8300,cer:3.5,rg:'wa',crit:'(iii)(iv)',tp:'settle',img:'img/catalhoyuk.webp',note:'"无街道城市"，平等主义社区样板；有壁画浮雕但无独立偶像殿堂。'},
+{id:'carnac',cn:'卡纳克巨石群',en:'Carnac Stones',yr:'2025',bp:6500,cer:6.6,rg:'eu',crit:'(i)(iv)',tp:'burial',mir:1,img:'img/carnac.webp',note:'2025年最新案例：标准(ii)被砍、文化景观类别被拒——ICOMOS对"过度申报"的修剪是常态操作。'},
+{id:'jomon',cn:'绳文遗址群',en:'Jōmon Sites',yr:'2021',bp:5030,cer:3.9,rg:'ea',crit:'(iii)(v)',tp:'settle',img:'img/sannai.webp',note:'定居狩猎采集社会＋精神文化；17点系列"做减法"的教科书；东亚最老文化遗产位已被其部分占据。'},
+{id:'malta',cn:'马耳他巨石神庙',en:'Megalithic Temples of Malta',yr:'1980/92',bp:4900,cer:9.0,rg:'eu',crit:'(iv)',tp:'ritual',img:'img/malta.webp',note:'最早独立石构神庙，类型学上最接近"庙"；但无坛—庙—冢三合一格局，雕像属室内陈设。'},
+{id:'bruna',cn:'博因河考古组合',en:'Brú na Bóinne',yr:'1993',bp:4950,cer:6.95,rg:'eu',crit:'(i)(iii)(iv)',tp:'burial',img:'img/newgrange.webp',note:'通道墓集中区，官方明确使用"ritual centre"定性；只有墓，无庙无坛。'},
+{id:'orkney',cn:'奥克尼新石器之心',en:'Heart of Neolithic Orkney',yr:'1999',bp:4460,cer:6.6,rg:'eu',crit:'(i)(ii)(iii)(iv)',tp:'burial',img:'img/brodgar.webp',note:'庙—墓—村组合，但含定居村落Skara Brae——与红山"礼仪中心独立于聚落"模式相反。'},
+{id:'stonehenge',cn:'巨石阵 · 埃夫伯里',en:'Stonehenge & Avebury',yr:'1986',bp:4350,cer:8.3,rg:'eu',crit:'(i)(ii)(iii)',tp:'ritual',img:'img/stonehenge.webp',note:'巨石纪念物景观；天文选址已进入OUV论证（标准iii）——红山圜丘天文说的对照镜。'},
+{id:'caral',cn:'卡拉尔—苏佩圣城',en:'Sacred City of Caral-Supe',yr:'2009',bp:4680,cer:7.55,rg:'am',crit:'(ii)(iii)(iv)',tp:'ritual',mir:1,img:'img/caral.webp',note:'与牛河梁完全同期的跨洲镜像：无陶器、无文字的礼仪驱动型复杂社会。"Sacred City"命名先例；含居住功能——红山比它更纯粹地位于礼仪中心一端。'},
+{id:'antequera',cn:'安特克拉支石墓',en:'Antequera Dolmens',yr:'2016',bp:4900,cer:5.9,rg:'eu',crit:'(i)(iii)(iv)',tp:'burial',img:'img/antequera.webp',note:'巨石墓葬＋自然地标，以"巨石＋山体朝向"关系著称。'},
+{id:'arslantepe',cn:'阿尔斯兰特佩',en:'Arslantepe',yr:'2021',bp:5050,cer:2.9,rg:'wa',crit:'(iii)',tp:'settle',img:'img/arslantepe.webp',note:'早期国家形成（非城市中心），"无文字的官僚制"；2021年被砍(ii)(iv)，仅以(iii)列入。'},
+{id:'poverty',cn:'波弗蒂角土墩',en:'Poverty Point',yr:'2014',bp:3400,cer:7.0,rg:'am',crit:'(iii)',tp:'ritual',img:'img/poverty.webp',note:'狩猎采集者纪念性土方工程；"此后2000年无人超越"的独特性表述获认可。'},
+{id:'gochang',cn:'韩国支石墓群',en:'Gochang Dolmens',yr:'2000',bp:2750,cer:5.0,rg:'ea',crit:'(iii)',tp:'burial',img:'img/gochang.webp',note:'东北亚巨石文化代表位已占——红山不可再走巨石墓葬路线。'},
+{id:'chankillo',cn:'钱基略天文礼仪建筑群',en:'Chankillo',yr:'2021',bp:2250,cer:7.5,rg:'am',crit:'(i)(iv)',tp:'ritual',mir:1,img:'img/chankillo.webp',note:'首个以"考古天文建筑群"名义列入者：天文主张须有十三塔这样的观测实证方可进入OUV。'},
+{id:'hopewell',cn:'霍普韦尔礼仪土方',en:'Hopewell Ceremonial Earthworks',yr:'2023',bp:1800,cer:8.5,rg:'am',crit:'(i)(iii)',tp:'ritual',mir:1,img:'img/hopewell.webp',note:'与红山同构度最高的先例："空置礼仪中心"——无常住人口、跨区域物流。红山须论证多出"等级制度化"一环；出土器物被定位为"支撑证据而非属性"。'},
+{id:'nanmadol',cn:'南马都尔',en:'Nan Madol',yr:'2016',bp:900,cer:8.0,rg:'ea',crit:'(i)(iii)(iv)(vi)',tp:'ritual',img:'img/nanmadol.webp',note:'太平洋酋邦礼仪中心；2016年入遗即列入濒危——管理失控的极端警示。'},
+{id:'liangzhu',cn:'良渚古城',en:'Liangzhu City',yr:'2019',bp:4800,cer:4.8,rg:'ea',crit:'(iii)(iv)',tp:'settle',mir:1,img:'img/liangzhu.webp',note:'已占"东亚新石器早期国家/城市"位；红山必须走"礼仪中心/礼制源头"的差异化路线，类型错位论证是答辩必答题。'},
+{id:'hongshan',cn:'红山文化遗址（牛河梁）',en:'Hongshan / Niuheliang',yr:'申报中',bp:5800,cer:9.5,rg:'hs',crit:'(i)(iii)(iv)',tp:'ritual',img:'img/niuheliang.webp',note:'距今5800年前后集中建成的9座台基建筑群，坛—庙—冢三合一，独立于聚落之外的大型礼仪中心。'}
 ];
 const RC={eu:'#b08d3c',wa:'#8d8577',am:'#5b7f9b',ea:'#a06a3c',hs:'#2e7d5b'};
 
 const NEGS=[
-{c:'A',cn:'泉州"古刺桐史迹"',en:'Quanzhou · 2018 不予列入',img:'img/quanzhou.jpg',txt:'16个遗产点过于分散、无法反映城市肌理；声称不作为港口城市申报，比较分析却与港口城市比较——<b>框架自相矛盾</b>。',v:'判词："名录存在空白不是列入的理由"。三年重构更名后2021年入遗。<b>→ 红山三遗址的系列逻辑必须一次性写对。</b>'},
-{c:'A',cn:'纳姆堡大教堂',en:'Naumburg Cathedral · 三度不予列入建议',img:'img/naumburg.jpg',txt:'ICOMOS第三次评估承认其真实性、完整性与保护管理<b>全部达标</b>，唯独OUV不成立。',v:'<b>→ 证明OUV是三支柱中具有否决权的一柱。</b>'},
-{c:'A',cn:'阿萨勒特城',en:'As-Salt · 2017 Deferral',img:'img/assalt.png',txt:'"22栋建筑的价值不比奥斯曼地区同类城市更例外，且<b>不构成连贯整体</b>"。',v:'→ 约旦2019年推倒重写OUV（从建筑实体转向"包容与城市好客"的非物质价值），2021年入遗。'},
-{c:'B',cn:'博洛尼亚拱廊',en:'Porticoes of Bologna · 2021 Deferral',img:'img/bologna.jpg',txt:'选点被批"<b>看似随机的目录</b>，不清楚组成部分如何选择"。',v:'→ "下一次提名不应是目录，而应是表达OUV的有机结构"——牛河梁51处遗址点的分级纳入逻辑必须预先编制。'},
-{c:'B',cn:'马拉塔军事景观',en:'Maratha Military Landscapes · 2025',img:'img/raigad.jpg',txt:'被要求围绕"反映马拉塔大规模领土防御战略的<b>层级化堡垒系列</b>"重构申报，甚至建议分两期提交。',v:'→ 系列遗产的层级叙事必须先于选点。'},
-{c:'B',cn:'拉贾斯坦山地堡垒',en:'Hill Forts of Rajasthan · 2012',img:'img/amber.jpg',txt:'先获"不予列入"建议、委员会降为Referral；核心问题是"<b>选点方法需更详细</b>，以表明各组成部分呈现全地形范围内的各种类别"。',v:'→ 靠2012年ICOMOS咨询任务扭转，2013年入遗——上游程序的正面教材。'},
-{c:'B',cn:'阿尔卑斯木桩民居',en:'Alpine Pile Dwellings · 2011',img:'img/piledwellings.jpg',txt:'ICOMOS来函"首要要求澄清<b>每个单一组成部分对整体OUV的贡献</b>"。',v:'→ 六国从约1000处遗址精选111处并逐点论证后入遗——"每点贡献说明表"是系列遗产的标配。'},
-{c:'C',cn:'博尔加尔',en:'Bolgar · 2013 Deferral建议',img:'img/bolgar.jpg',txt:'<b>真实性存疑</b>，涉及大量重建。',v:'→ 委员会2014年翻盘列入——但红山不应把希望寄托在翻盘上。'},
-{c:'C',cn:'伯大尼洗礼地',en:'Bethany · 2015',img:'img/bethany.jpg',txt:'"申报文件提供的证据<b>无法无疑地证明</b>考古遗迹确与耶稣受洗相关"，同时认定其关联价值例外，以(iii)(vi)推荐列入。',v:'→ 解释与实证分离的经典：女神庙"祭祀对象是谁"无法证明，不妨碍"偶像崇拜建筑存在"成立——前提是文本从一开始分开陈述。'},
-{c:'D',cn:'卡纳克巨石群',en:'Carnac · 2025 标准削减',img:'img/carnac.jpg',txt:'标准(ii)被砍、<b>文化景观类别被拒</b>。',v:'→ 红山类别上坚持"考古遗址组合"，不碰"文化景观"。'},
-{c:'D',cn:'阿尔斯兰特佩',en:'Arslantepe · 2021 标准削减',img:'img/arslantepe.jpg',txt:'标准<b>(ii)(iv)被砍</b>，仅以(iii)列入。',v:'→ 被动接受修剪暴露对规则理解不深；主动精准申报展示学术诚实。'},
-{c:'D',cn:'霍普韦尔礼仪土方',en:'Hopewell · 2023 天文加注',img:'img/hopewell.png',txt:'天文维度被加注"<b>证据不足</b>"。',v:'→ 圜丘天文说主动降级为研究假说，不进OUV。'},
-{c:'D',cn:'钱基略天文礼仪建筑群',en:'Chankillo · 2021 改名改标准',img:'img/chankillo.jpg',txt:'被<b>改名改标准</b>后列入。',v:'→ 天文主张须有观测实证方可进入OUV——十三塔是实证，圜丘目前不是。'},
-{c:'E',cn:'哥贝克力石阵',en:'Göbekli Tepe · 2018',img:'img/gobekli.png',txt:'缺<b>风险预案</b>。',v:'→ 管理类问题以"决定附件要求"写入决议，成为定期报告的长期负债。'},
-{c:'E',cn:'良渚古城',en:'Liangzhu · 2019',img:'img/liangzhu.png',txt:'被要求完善<b>游客管控与HIA</b>（遗产影响评估）。',v:'→ 中国项目管理侧整改项通常最多——这是ICOMOS明知委员会会放行时施加约束的主要工具。'},
-{c:'E',cn:'南马都尔',en:'Nan Madol · 2016',img:'img/nanmadol.jpg',txt:'<b>入遗即列入濒危</b>名录。',v:'→ 保护状况失控的极端警示。'},
-{c:'E',cn:'绳文遗址群',en:'Jōmon Sites · 2021',img:'img/sannai.jpg',txt:'被要求持续清除"<b>不合规元素</b>"。',v:'→ 遗址公园展示设施、女神庙保护展示馆的设计介入程度，是现场考察的固定检查点。'}
+{c:'A',cn:'泉州"古刺桐史迹"',en:'Quanzhou · 2018 不予列入',img:'img/quanzhou.webp',txt:'16个遗产点过于分散、无法反映城市肌理；声称不作为港口城市申报，比较分析却与港口城市比较——<b>框架自相矛盾</b>。',v:'判词："名录存在空白不是列入的理由"。三年重构更名后2021年入遗。<b>→ 红山三遗址的系列逻辑必须一次性写对。</b>'},
+{c:'A',cn:'纳姆堡大教堂',en:'Naumburg Cathedral · 三度不予列入建议',img:'img/naumburg.webp',txt:'ICOMOS第三次评估承认其真实性、完整性与保护管理<b>全部达标</b>，唯独OUV不成立。',v:'<b>→ 证明OUV是三支柱中具有否决权的一柱。</b>'},
+{c:'A',cn:'阿萨勒特城',en:'As-Salt · 2017 Deferral',img:'img/assalt.webp',txt:'"22栋建筑的价值不比奥斯曼地区同类城市更例外，且<b>不构成连贯整体</b>"。',v:'→ 约旦2019年推倒重写OUV（从建筑实体转向"包容与城市好客"的非物质价值），2021年入遗。'},
+{c:'B',cn:'博洛尼亚拱廊',en:'Porticoes of Bologna · 2021 Deferral',img:'img/bologna.webp',txt:'选点被批"<b>看似随机的目录</b>，不清楚组成部分如何选择"。',v:'→ "下一次提名不应是目录，而应是表达OUV的有机结构"——牛河梁51处遗址点的分级纳入逻辑必须预先编制。'},
+{c:'B',cn:'马拉塔军事景观',en:'Maratha Military Landscapes · 2025',img:'img/raigad.webp',txt:'被要求围绕"反映马拉塔大规模领土防御战略的<b>层级化堡垒系列</b>"重构申报，甚至建议分两期提交。',v:'→ 系列遗产的层级叙事必须先于选点。'},
+{c:'B',cn:'拉贾斯坦山地堡垒',en:'Hill Forts of Rajasthan · 2012',img:'img/amber.webp',txt:'先获"不予列入"建议、委员会降为Referral；核心问题是"<b>选点方法需更详细</b>，以表明各组成部分呈现全地形范围内的各种类别"。',v:'→ 靠2012年ICOMOS咨询任务扭转，2013年入遗——上游程序的正面教材。'},
+{c:'B',cn:'阿尔卑斯木桩民居',en:'Alpine Pile Dwellings · 2011',img:'img/piledwellings.webp',txt:'ICOMOS来函"首要要求澄清<b>每个单一组成部分对整体OUV的贡献</b>"。',v:'→ 六国从约1000处遗址精选111处并逐点论证后入遗——"每点贡献说明表"是系列遗产的标配。'},
+{c:'C',cn:'博尔加尔',en:'Bolgar · 2013 Deferral建议',img:'img/bolgar.webp',txt:'<b>真实性存疑</b>，涉及大量重建。',v:'→ 委员会2014年翻盘列入——但红山不应把希望寄托在翻盘上。'},
+{c:'C',cn:'伯大尼洗礼地',en:'Bethany · 2015',img:'img/bethany.webp',txt:'"申报文件提供的证据<b>无法无疑地证明</b>考古遗迹确与耶稣受洗相关"，同时认定其关联价值例外，以(iii)(vi)推荐列入。',v:'→ 解释与实证分离的经典：女神庙"祭祀对象是谁"无法证明，不妨碍"偶像崇拜建筑存在"成立——前提是文本从一开始分开陈述。'},
+{c:'D',cn:'卡纳克巨石群',en:'Carnac · 2025 标准削减',img:'img/carnac.webp',txt:'标准(ii)被砍、<b>文化景观类别被拒</b>。',v:'→ 红山类别上坚持"考古遗址组合"，不碰"文化景观"。'},
+{c:'D',cn:'阿尔斯兰特佩',en:'Arslantepe · 2021 标准削减',img:'img/arslantepe.webp',txt:'标准<b>(ii)(iv)被砍</b>，仅以(iii)列入。',v:'→ 被动接受修剪暴露对规则理解不深；主动精准申报展示学术诚实。'},
+{c:'D',cn:'霍普韦尔礼仪土方',en:'Hopewell · 2023 天文加注',img:'img/hopewell.webp',txt:'天文维度被加注"<b>证据不足</b>"。',v:'→ 圜丘天文说主动降级为研究假说，不进OUV。'},
+{c:'D',cn:'钱基略天文礼仪建筑群',en:'Chankillo · 2021 改名改标准',img:'img/chankillo.webp',txt:'被<b>改名改标准</b>后列入。',v:'→ 天文主张须有观测实证方可进入OUV——十三塔是实证，圜丘目前不是。'},
+{c:'E',cn:'哥贝克力石阵',en:'Göbekli Tepe · 2018',img:'img/gobekli.webp',txt:'缺<b>风险预案</b>。',v:'→ 管理类问题以"决定附件要求"写入决议，成为定期报告的长期负债。'},
+{c:'E',cn:'良渚古城',en:'Liangzhu · 2019',img:'img/liangzhu.webp',txt:'被要求完善<b>游客管控与HIA</b>（遗产影响评估）。',v:'→ 中国项目管理侧整改项通常最多——这是ICOMOS明知委员会会放行时施加约束的主要工具。'},
+{c:'E',cn:'南马都尔',en:'Nan Madol · 2016',img:'img/nanmadol.webp',txt:'<b>入遗即列入濒危</b>名录。',v:'→ 保护状况失控的极端警示。'},
+{c:'E',cn:'绳文遗址群',en:'Jōmon Sites · 2021',img:'img/sannai.webp',txt:'被要求持续清除"<b>不合规元素</b>"。',v:'→ 遗址公园展示设施、女神庙保护展示馆的设计介入程度，是现场考察的固定检查点。'}
 ];
 
 const RISKS=[
@@ -802,18 +926,24 @@ const QAS=[
       lb.textContent=lp.name;g.appendChild(lb);
       nodes.push({c,lb,k:SITES.indexOf(s)});
     } else nodes.push({c,lb:null,k:SITES.indexOf(s)});
-    g.addEventListener('mousemove',e=>{
+    const showTip=e=>{
+      tip.innerHTML=`<img src="${s.img}" alt="${s.cn}"><div class="tt-body"><h4>${s.cn}</h4><div class="tt-en">${s.en}</div><div class="tt-meta"><span>列入 ${s.yr}</span><span>标准 ${s.crit}</span></div><p>${s.note}</p></div>`;
       tip.style.opacity=1;
-      tip.innerHTML=`<img src="${s.img}" alt=""><div class="tt-body"><h4>${s.cn}</h4><div class="tt-en">${s.en}</div><div class="tt-meta"><span>列入 ${s.yr}</span><span>标准 ${s.crit}</span></div><p>${s.note}</p></div>`;
-      const tw=264,th=tip.offsetHeight||300;
+      const tw=tip.offsetWidth||264,th=tip.offsetHeight||300;
       let L=e.clientX+22,T=e.clientY-th-14;
+      if(innerWidth<=900)L=(innerWidth-tw)/2;
       if(L+tw>innerWidth-12)L=e.clientX-tw-22;
+      L=Math.max(12,Math.min(L,innerWidth-tw-12));
       if(T<12)T=e.clientY+24;
+      T=Math.max(12,Math.min(T,innerHeight-th-12));
       tip.style.left=L+'px';tip.style.top=T+'px';
-    });
-    g.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    };
+    g.addEventListener('mousemove',showTip);
+    g.addEventListener('click',showTip);
+    g.addEventListener('mouseleave',()=>{if(innerWidth>900)tip.style.opacity=0});
     svg.appendChild(g);
   });
+  document.addEventListener('click',e=>{if(!e.target.closest('#scatter'))tip.style.opacity=0});
   // staggered entrance
   ScrollTrigger.create({trigger:'#scatter',start:'top 78%',once:true,onEnter:()=>{
     nodes.forEach((n,i)=>{
@@ -941,15 +1071,25 @@ ScrollTrigger.create({trigger:'.proc',start:'top 75%',once:true,onEnter:()=>{
   document.querySelectorAll('.pstep').forEach((s,i)=>setTimeout(()=>s.classList.add('on'),350*i+200));
 }});
 
-// nav hide on scroll down
+// mobile navigation + nav hide on scroll down
 (function(){
-  const nav=document.getElementById('nav');let last=0;
+  const nav=document.getElementById('nav'),toggle=document.getElementById('navToggle');let last=0;
+  const setMenu=open=>{
+    nav.classList.toggle('menu-open',open);
+    toggle.setAttribute('aria-expanded',String(open));
+    toggle.setAttribute('aria-label',open?'关闭章节导航':'打开章节导航');
+    toggle.textContent=open?'关闭':'章节导航';
+  };
+  toggle.addEventListener('click',e=>{e.stopPropagation();setMenu(!nav.classList.contains('menu-open'))});
+  document.addEventListener('click',e=>{if(!e.target.closest('#nav'))setMenu(false)});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
   addEventListener('scroll',()=>{
     const y=scrollY;
     nav.classList.toggle('solid',y>60);
-    nav.classList.toggle('hidden',y>last&&y>320);
+    nav.classList.toggle('hidden',!nav.classList.contains('menu-open')&&y>last&&y>320);
     last=y;
   },{passive:true});
+  document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
 })();
 
 // OUV english toggle
@@ -962,22 +1102,82 @@ ScrollTrigger.create({trigger:'.proc',start:'top 75%',once:true,onEnter:()=>{
   });
 })();
 
-// lightbox
+// lightbox with buttons, wheel, double-click and touch pinch/pan
 (function(){
   const lb=document.getElementById('lightbox'),img=lb.querySelector('img');
-  document.querySelectorAll('.chart img').forEach(c=>{
-    c.addEventListener('click',()=>{img.src=c.src;lb.classList.add('on')});
+  let scale=1,tx=0,ty=0,previousOverflow='',dragStart=null,pinchStart=null;
+  const pointers=new Map();
+  const clamp=v=>Math.max(1,Math.min(4,v));
+  const render=()=>{img.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`};
+  const reset=()=>{scale=1;tx=0;ty=0;pointers.clear();dragStart=null;pinchStart=null;render()};
+  const zoom=value=>{scale=clamp(value);if(scale===1){tx=0;ty=0}render()};
+  const open=c=>{
+    previousOverflow=document.body.style.overflow;
+    img.src=c.src;img.alt=c.alt||'放大的研究图版';
+    reset();lb.classList.add('on');document.body.style.overflow='hidden';
+    lb.querySelector('.lb-close').focus({preventScroll:true});
+  };
+  const close=()=>{lb.classList.remove('on');document.body.style.overflow=previousOverflow;reset()};
+  document.querySelectorAll('.chart img').forEach(c=>c.addEventListener('click',()=>open(c)));
+  lb.querySelector('.lb-zoom-in').addEventListener('click',()=>zoom(scale+.5));
+  lb.querySelector('.lb-zoom-out').addEventListener('click',()=>zoom(scale-.5));
+  lb.querySelector('.lb-close').addEventListener('click',close);
+  lb.addEventListener('click',e=>{if(e.target===lb)close()});
+  img.addEventListener('dblclick',()=>zoom(scale>1?1:2));
+  img.addEventListener('wheel',e=>{e.preventDefault();zoom(scale+(e.deltaY<0?.25:-.25))},{passive:false});
+  const pinchMetrics=()=>{
+    const [a,b]=[...pointers.values()];
+    return {dist:Math.hypot(a.x-b.x,a.y-b.y),cx:(a.x+b.x)/2,cy:(a.y+b.y)/2};
+  };
+  img.addEventListener('pointerdown',e=>{
+    e.preventDefault();img.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});img.classList.add('dragging');
+    if(pointers.size===1)dragStart={x:e.clientX,y:e.clientY,tx,ty};
+    if(pointers.size===2){const m=pinchMetrics();pinchStart={...m,scale,tx,ty};dragStart=null}
   });
-  lb.addEventListener('click',()=>lb.classList.remove('on'));
+  img.addEventListener('pointermove',e=>{
+    if(!pointers.has(e.pointerId))return;
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pointers.size===2&&pinchStart){
+      const m=pinchMetrics();scale=clamp(pinchStart.scale*m.dist/Math.max(1,pinchStart.dist));
+      tx=pinchStart.tx+m.cx-pinchStart.cx;ty=pinchStart.ty+m.cy-pinchStart.cy;render();
+    }else if(pointers.size===1&&dragStart&&scale>1){
+      tx=dragStart.tx+e.clientX-dragStart.x;ty=dragStart.ty+e.clientY-dragStart.y;render();
+    }
+  });
+  const release=e=>{
+    pointers.delete(e.pointerId);
+    if(!pointers.size){img.classList.remove('dragging');dragStart=null;pinchStart=null}
+    else if(pointers.size===1){const p=[...pointers.values()][0];dragStart={x:p.x,y:p.y,tx,ty};pinchStart=null}
+  };
+  img.addEventListener('pointerup',release);img.addEventListener('pointercancel',release);
+  document.addEventListener('keydown',e=>{
+    if(!lb.classList.contains('on'))return;
+    if(e.key==='Escape')close();
+    if(e.key==='+'||e.key==='=')zoom(scale+.5);
+    if(e.key==='-')zoom(scale-.5);
+  });
 })();
 
-// smooth anchor offset for fixed nav
+// smooth anchor offset for fixed nav + accurate shareable hash links
+const scrollToSection=t=>{
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  scrollTo({top:t.getBoundingClientRect().top+scrollY-70,behavior:reduce?'auto':'smooth'});
+};
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t){e.preventDefault();scrollTo({top:t.getBoundingClientRect().top+scrollY-70,behavior:'smooth'})}
+    const hash=a.getAttribute('href'),t=document.querySelector(hash);
+    if(t){
+      e.preventDefault();
+      if(location.hash!==hash)history.pushState(null,'',hash);
+      scrollToSection(t);
+    }
   });
 });
+if(location.hash){
+  const t=document.querySelector(location.hash);
+  if(t)setTimeout(()=>scrollToSection(t),120);
+}
 </script>
 </body>
 </html>
