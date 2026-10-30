@@ -1014,8 +1014,7 @@ const QAS=[
   ScrollTrigger.create({trigger:'#scatter',start:'top 78%',once:true,onEnter:()=>{
     nodes.forEach((n,i)=>{
       const radius=+n.c.getAttribute('data-r');
-      gsap.fromTo(n.c,{attr:{r:0,opacity:0}},{attr:{r:radius,opacity:1},duration:.7,delay:i*.06,ease:'back.out(2)'});
-      if(n.lb)gsap.fromTo(n.lb,{attr:{opacity:0}},{attr:{opacity:1},duration:.5,delay:.25+i*.06});
+      gsap.fromTo(n.c,{attr:{r:0}},{attr:{r:radius},duration:.7,delay:i*.06,ease:'back.out(2)'});
     });
   }});
 })();
