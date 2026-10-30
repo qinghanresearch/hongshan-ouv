@@ -45,6 +45,14 @@ nav.solid{background:rgba(251,248,241,.92);backdrop-filter:blur(12px);border-bot
 .nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
 .nav-links a:hover{color:var(--gold)}
 .nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-actions{display:flex;align-items:center;gap:10px;flex:none}
+.lang-toggle{border:1px solid var(--line);background:rgba(251,248,241,.72);color:var(--gold-dim);font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.08em;padding:8px 11px;cursor:pointer;white-space:nowrap}
+.lang-toggle:hover,.lang-toggle:focus-visible{border-color:var(--gold);color:var(--gold)}
+html[lang="en"] .nav-links{gap:18px;font-size:11px;letter-spacing:.04em}
+html[lang="en"] .hero h1{font-size:clamp(34px,5.2vw,72px);letter-spacing:.01em}
+html[lang="en"] .sec-head h2{font-size:clamp(26px,3.4vw,44px)}
+html[lang="en"] .ouv-en-toggle,html[lang="en"] .ouv-en,html[lang="en"] .gen,html[lang="en"] .tt-en{display:none}
+@media(max-width:1200px){.nav-links{gap:16px}}
 @media(max-width:900px){.nav-links{display:none}}
 
 /* ---------- hero ---------- */
@@ -445,7 +453,10 @@ footer .f3{margin-top:22px;font-family:var(--latin);font-size:10px;letter-spacin
   <div class="nav-links" id="navLinks">
     <a href="#method">方法与来源</a><a href="#s1">评审机制</a><a href="#s2">跨文明比较</a><a href="#s3">负面清单</a><a href="#s4">红山占位</a><a href="#s5">命题风险</a><a href="#s6">推荐OUV</a><a href="#s7">路线图</a>
   </div>
-  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="打开章节导航">章节导航</button>
+  <div class="nav-actions">
+    <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="打开章节导航">章节导航</button>
+  </div>
 </nav>
 
 <header class="hero">
@@ -949,8 +960,8 @@ const QAS=[
   const tip=document.getElementById('tooltip');
   const nodes=[];
   SITES.forEach(s=>{
-    const g=el('g',{cursor:'pointer'});
-    const isHs=s.rg==='hs';
+    const g=el('g',{cursor:'pointer','data-site':s.id});
+    const isHs=s.rg==='hs',isLz=s.id==='liangzhu';
     const px=x(s.bp),py=y(s.cer);
     const lp=labelPos[s.id];
     // leader line if label moved far
@@ -968,15 +979,21 @@ const QAS=[
       an2.setAttribute('attributeName','opacity');an2.setAttribute('values','.8;0');an2.setAttribute('dur','2.2s');an2.setAttribute('repeatCount','indefinite');
       pulse.appendChild(an);pulse.appendChild(an2);g.appendChild(pulse);
     }
-    const c=el('circle',{cx:px,cy:py,r:isHs?10:6.5,fill:RC[s.rg],stroke:isHs?'#fbf8f1':'rgba(251,248,241,.9)','stroke-width':isHs?2:1.2,opacity:0,class:'node'});
+    if(isLz)g.appendChild(el('circle',{cx:px,cy:py,r:12,fill:'none',stroke:'#a06a3c','stroke-width':1.4,opacity:.55}));
+    const radius=isHs?10:isLz?8:6.5;
+    const c=el('circle',{cx:px,cy:py,r:radius,'data-r':radius,fill:RC[s.rg],stroke:isHs||isLz?'#fbf8f1':'rgba(251,248,241,.9)','stroke-width':isHs||isLz?2:1.2,opacity:1,class:'node'});
     g.appendChild(c);
     if(lp){
-      const lb=el('text',{x:lp.lx,y:lp.ly,fill:isHs?'#2e7d5b':'#5c554a','font-size':isHs?14:fs,'font-weight':isHs?700:400,'text-anchor':lp.an,opacity:0,class:'nlabel'});
+      const lb=el('text',{x:lp.lx,y:lp.ly,fill:isHs?'#2e7d5b':isLz?'#a06a3c':'#5c554a','font-size':isHs?14:isLz?12.5:fs,'font-weight':isHs||isLz?700:400,'text-anchor':lp.an,opacity:1,class:'nlabel'});
       lb.textContent=lp.name;g.appendChild(lb);
       nodes.push({c,lb,k:SITES.indexOf(s)});
     } else nodes.push({c,lb:null,k:SITES.indexOf(s)});
     const showTip=e=>{
-      tip.innerHTML=`<img src="${s.img}" alt="${s.cn}"><div class="tt-body"><h4>${s.cn}</h4><div class="tt-en">${s.en}</div><div class="tt-meta"><span>列入 ${s.yr}</span><span>标准 ${s.crit}</span></div><p>${s.note}</p></div>`;
+      const english=document.documentElement.lang==='en';
+      const year=s.yr==='申报中'?(english?'Nomination':'申报中'):(english?'Listed ':'列入 ')+s.yr;
+      const criterion=english?'Criteria ':'标准 ';
+      tip.innerHTML=`<img src="${s.img}" alt="${s.cn}"><div class="tt-body"><h4>${s.cn}</h4><div class="tt-en">${s.en}</div><div class="tt-meta"><span>${year}</span><span>${criterion}${s.crit}</span></div><p>${s.note}</p></div>`;
+      translateTree(tip);
       tip.style.opacity=1;
       const tw=tip.offsetWidth||264,th=tip.offsetHeight||300;
       let L=e.clientX+22,T=e.clientY-th-14;
@@ -996,9 +1013,9 @@ const QAS=[
   // staggered entrance
   ScrollTrigger.create({trigger:'#scatter',start:'top 78%',once:true,onEnter:()=>{
     nodes.forEach((n,i)=>{
-      const isHs=n.c.getAttribute('stroke-width')==2;
-      gsap.fromTo(n.c,{attr:{r:0,opacity:1}},{attr:{r:isHs?10:6.5},duration:.7,delay:i*.06,ease:'back.out(2)'});
-      if(n.lb)gsap.to(n.lb,{attr:{opacity:1},duration:.5,delay:.25+i*.06});
+      const radius=+n.c.getAttribute('data-r');
+      gsap.fromTo(n.c,{attr:{r:0,opacity:0}},{attr:{r:radius,opacity:1},duration:.7,delay:i*.06,ease:'back.out(2)'});
+      if(n.lb)gsap.fromTo(n.lb,{attr:{opacity:0}},{attr:{opacity:1},duration:.5,delay:.25+i*.06});
     });
   }});
 })();
@@ -1088,6 +1105,247 @@ const QAS=[
 </script>
 
 <script>
+/* ================= BILINGUAL DATA ================= */
+const I18N_DATA=[
+[`哥贝克力石阵`,`Göbekli Tepe`],[`古耶利哥 / 苏丹丘`,`Tell es-Sultan`],[`恰塔尔休于`,`Çatalhöyük`],[`卡纳克巨石群`,`Carnac Stones`],[`绳文遗址群`,`Jōmon Sites`],[`马耳他巨石神庙`,`Megalithic Temples of Malta`],[`博因河考古组合`,`Brú na Bóinne`],[`奥克尼新石器之心`,`Neolithic Orkney`],[`巨石阵 · 埃夫伯里`,`Stonehenge & Avebury`],[`卡拉尔—苏佩圣城`,`Caral-Supe`],[`安特克拉支石墓`,`Antequera Dolmens`],[`阿尔斯兰特佩`,`Arslantepe`],[`波弗蒂角土墩`,`Poverty Point`],[`韩国支石墓群`,`Gochang Dolmens`],[`钱基略天文礼仪建筑群`,`Chankillo`],[`霍普韦尔礼仪土方`,`Hopewell Earthworks`],[`南马都尔`,`Nan Madol`],[`良渚古城`,`Liangzhu`],[`红山文化遗址（牛河梁）`,`Hongshan (Niuheliang)`],[`申报中`,`Nomination`],
+[`全球最早纪念性礼仪建筑，占"最早纪念性"位；无墓葬等级序列、无玉器系统。"解释不确定不妨碍入遗"的标杆。`,`The world's earliest monumental ritual architecture, occupying the "earliest monument" position, without a mortuary hierarchy or jade system. A benchmark showing that uncertain interpretation does not prevent inscription.`],
+[`新石器化与早期城市主义；OUV锚定29层居住地层叠压。聚落型，红山的反面对照。`,`A case of Neolithisation and early urbanism, with OUV anchored in 29 superimposed occupation layers. A settlement-type counterpart to Hongshan.`],
+[`"无街道城市"，平等主义社区样板；有壁画浮雕但无独立偶像殿堂。`,`A "streetless city" and model of an egalitarian community, with wall paintings and reliefs but no independent hall for anthropomorphic images.`],
+[`2025年最新案例：标准(ii)被砍、文化景观类别被拒，说明ICOMOS对"过度申报"的修剪是常态操作。`,`A 2025 case in which criterion (ii) was removed and cultural landscape status was rejected, showing that ICOMOS routinely trims overextended nominations.`],
+[`定居狩猎采集社会＋精神文化；17点系列"做减法"的教科书；东亚最老文化遗产位已被其部分占据。`,`A sedentary hunter-gatherer society and its spiritual culture. Its 17-component serial nomination is a lesson in discipline and partly occupies East Asia's earliest cultural heritage position.`],
+[`最早独立石构神庙，类型学上最接近"庙"；但无坛—庙—冢三合一格局，雕像属室内陈设。`,`The earliest freestanding stone temples and the closest typological parallel to a "temple", but without an integrated altar–temple–tomb ensemble; the statues are interior furnishings.`],
+[`通道墓集中区，官方明确使用"ritual centre"定性；只有墓，无庙无坛。`,`A concentration of passage tombs explicitly described by UNESCO as a "ritual centre", with tombs but no temples or altars.`],
+[`庙—墓—村组合，但含定居村落Skara Brae，因此与红山"礼仪中心独立于聚落"模式相反。`,`A temple–tomb–village combination that includes the settlement of Skara Brae, the opposite of Hongshan's ceremonial centre separated from residential settlements.`],
+[`巨石纪念物景观；天文选址已进入OUV论证（标准iii），可作为红山圜丘天文说的对照镜。`,`A monumental stone landscape whose astronomical alignment enters the OUV under criterion (iii), providing a direct comparison for Hongshan's circular altar hypothesis.`],
+[`与牛河梁完全同期的跨洲镜像：无陶器、无文字的礼仪驱动型复杂社会。"Sacred City"命名先例；由于卡拉尔含居住功能，红山比它更纯粹地位于礼仪中心一端。`,`A cross-continental contemporary of Niuheliang: a ritual-driven complex society without pottery or writing. Its "Sacred City" name is a useful precedent; because Caral included residences, Hongshan sits more purely at the ceremonial-centre end of the spectrum.`],
+[`巨石墓葬＋自然地标，以"巨石＋山体朝向"关系著称。`,`Megalithic tombs combined with natural landmarks, renowned for the orientation relationship between megaliths and mountains.`],
+[`早期国家形成（非城市中心），"无文字的官僚制"；2021年被砍(ii)(iv)，仅以(iii)列入。`,`Early state formation at a non-urban centre, described as "bureaucracy without writing". Criteria (ii) and (iv) were removed in 2021, leaving inscription under criterion (iii) alone.`],
+[`狩猎采集者纪念性土方工程；"此后2000年无人超越"的独特性表述获认可。`,`Monumental earthworks built by hunter-gatherers, whose claim to remain unsurpassed for the following 2,000 years was accepted.`],
+[`东北亚巨石文化代表位已占，因此红山不可再走巨石墓葬路线。`,`The representative Northeast Asian megalithic position is already occupied, so Hongshan should not frame itself as another megalithic tomb nomination.`],
+[`首个以"考古天文建筑群"名义列入者：天文主张须有十三塔这样的观测实证方可进入OUV。`,`The first property inscribed as an archaeoastronomical complex: astronomical claims require observational evidence such as the Thirteen Towers before they can enter OUV.`],
+[`与红山同构度最高的先例是"空置礼仪中心"：无常住人口、跨区域物流。红山须论证多出"等级制度化"一环；出土器物被定位为"支撑证据而非属性"。`,`The closest precedent to Hongshan is the "unoccupied ceremonial centre": no permanent population and interregional movement of goods. Hongshan must additionally demonstrate institutionalised hierarchy; excavated objects are treated as supporting evidence rather than attributes.`],
+[`太平洋酋邦礼仪中心；2016年入遗即列入濒危，是管理失控的极端警示。`,`A Pacific chiefly ceremonial centre, inscribed and simultaneously placed on the Danger List in 2016. It is an extreme warning about management failure.`],
+[`已占"东亚新石器早期国家/城市"位；红山必须走"礼仪中心/礼制源头"的差异化路线，类型错位论证是答辩必答题。`,`Liangzhu already occupies the "early state/city in Neolithic East Asia" position. Hongshan must differentiate itself as a "ceremonial centre/source of ritual institutions"; this typological distinction is essential to its defence.`],
+[`距今5800年前后集中建成的9座台基建筑群，坛—庙—冢三合一，独立于聚落之外的大型礼仪中心。`,`Nine terraced platforms constructed around 5800 BP, integrating altars, a temple and tombs in a large ceremonial centre separate from residential settlements.`],
+[`泉州"古刺桐史迹"`,`Quanzhou: Emporium of the World`],[`纳姆堡大教堂`,`Naumburg Cathedral`],[`阿萨勒特城`,`As-Salt`],[`博洛尼亚拱廊`,`Porticoes of Bologna`],[`马拉塔军事景观`,`Maratha Military Landscapes`],[`拉贾斯坦山地堡垒`,`Hill Forts of Rajasthan`],[`阿尔卑斯木桩民居`,`Prehistoric Pile Dwellings`],[`博尔加尔`,`Bolgar`],[`伯大尼洗礼地`,`Bethany`],
+[`Quanzhou · 2018 不予列入`,`Quanzhou · 2018 Non-inscription`],[`Naumburg Cathedral · 三度不予列入建议`,`Naumburg Cathedral · Three Non-inscription Recommendations`],
+[`16个遗产点过于分散、无法反映城市肌理；声称不作为港口城市申报，比较分析却与港口城市比较，导致<b>框架自相矛盾</b>。`,`The 16 components were too dispersed to reflect the urban fabric. Although the nomination claimed not to be a port-city nomination, its comparisons used port cities, creating a <b>self-contradictory framework</b>.`],
+[`判词："名录存在空白不是列入的理由"。三年重构更名后2021年入遗。<b>→ 红山三遗址的系列逻辑必须一次性写对。</b>`,`Verdict: "A gap in the World Heritage List is not a reason for inscription." After three years of restructuring and renaming, it was inscribed in 2021. <b>→ Hongshan must get the serial logic of its three sites right from the outset.</b>`],
+[`ICOMOS第三次评估承认其真实性、完整性与保护管理<b>全部达标</b>，唯独OUV不成立。`,`In its third evaluation, ICOMOS accepted that authenticity, integrity, protection and management were <b>all adequate</b>, but found the OUV insufficient.`],
+[`<b>→ 证明OUV是三支柱中具有否决权的一柱。</b>`,`<b>→ This demonstrates that OUV is the pillar with effective veto power.</b>`],
+[`"22栋建筑的价值不比奥斯曼地区同类城市更例外，且<b>不构成连贯整体</b>"。`,`"The value of the 22 buildings is no more exceptional than that of comparable Ottoman cities, and they <b>do not form a coherent whole</b>."`],
+[`→ 约旦2019年推倒重写OUV（从建筑实体转向"包容与城市好客"的非物质价值），2021年入遗。`,`→ Jordan completely rewrote the OUV in 2019, shifting from buildings to the intangible values of "tolerance and urban hospitality", leading to inscription in 2021.`],
+[`选点被批"<b>看似随机的目录</b>，不清楚组成部分如何选择"。`,`The selection was criticised as a <b>"seemingly random inventory"</b>, with no clear explanation of how components had been chosen.`],
+[`→ "下一次提名不应是目录，而应是表达OUV的有机结构"——牛河梁51处遗址点的分级纳入逻辑必须预先编制。`,`→ "The next nomination should not be an inventory but an organic structure expressing OUV." The rationale for including the 51 Niuheliang components must therefore be prepared in advance.`],
+[`被要求围绕"反映马拉塔大规模领土防御战略的<b>层级化堡垒系列</b>"重构申报，甚至建议分两期提交。`,`ICOMOS requested restructuring around a <b>hierarchical fort series</b> reflecting the Maratha territorial defence strategy, and even suggested submission in two phases.`],
+[`→ 系列遗产的层级叙事必须先于选点。`,`→ A serial property needs a hierarchical narrative before component selection.`],
+[`先获"不予列入"建议、委员会降为Referral；核心问题是"<b>选点方法需更详细</b>，以表明各组成部分呈现全地形范围内的各种类别"。`,`Initially recommended for non-inscription and changed to Referral by the Committee. The central issue was that the <b>selection method needed greater detail</b> to show how the components represented the full range of terrain and types.`],
+[`→ 靠2012年ICOMOS咨询任务扭转，2013年入遗——上游程序的正面教材。`,`→ An ICOMOS advisory mission in 2012 helped reverse the outcome, leading to inscription in 2013. This is a positive lesson in using the Upstream Process.`],
+[`ICOMOS来函"首要要求澄清<b>每个单一组成部分对整体OUV的贡献</b>"。`,`ICOMOS first requested clarification of <b>how each individual component contributes to the overall OUV</b>.`],
+[`→ 六国从约1000处遗址精选111处并逐点论证后入遗——"每点贡献说明表"是系列遗产的标配。`,`→ Six countries selected 111 from roughly 1,000 sites and justified each one before inscription. A component-by-component contribution table is standard practice for serial properties.`],
+[`<b>真实性存疑</b>，涉及大量重建。`,`<b>Authenticity was questioned</b> because of extensive reconstruction.`],
+[`→ 委员会2014年翻盘列入——但红山不应把希望寄托在翻盘上。`,`→ The Committee reversed the recommendation and inscribed the property in 2014, but Hongshan should not rely on such a reversal.`],
+[`"申报文件提供的证据<b>无法无疑地证明</b>考古遗迹确与耶稣受洗相关"，同时认定其关联价值例外，以(iii)(vi)推荐列入。`,`The dossier <b>could not establish beyond doubt</b> that the archaeological remains were associated with the baptism of Jesus, but ICOMOS recognised exceptional associative value and recommended inscription under criteria (iii) and (vi).`],
+[`→ 解释与实证分离的经典：女神庙"祭祀对象是谁"无法证明，不妨碍"偶像崇拜建筑存在"成立——前提是文本从一开始分开陈述。`,`→ A classic separation of interpretation from evidence: the object of worship at the Goddess Temple cannot be proven, but the existence of a building for anthropomorphic cult images can still be established, provided the two claims are separated from the outset.`],
+[`标准(ii)被砍、<b>文化景观类别被拒</b>。`,`Criterion (ii) was removed and <b>cultural landscape status was rejected</b>.`],
+[`→ 红山类别上坚持"考古遗址组合"，不碰"文化景观"。`,`→ Hongshan should remain an "archaeological site ensemble" and avoid nomination as a cultural landscape.`],
+[`标准<b>(ii)(iv)被砍</b>，仅以(iii)列入。`,`Criteria <b>(ii) and (iv) were removed</b>, leaving inscription under criterion (iii) alone.`],
+[`→ 被动接受修剪暴露对规则理解不深；主动精准申报展示学术诚实。`,`→ Passively accepting cuts reveals a weak grasp of the rules; precise self-restraint demonstrates scholarly integrity.`],
+[`天文维度被加注"<b>证据不足</b>"。`,`The astronomical dimension was explicitly noted as having <b>insufficient evidence</b>.`],
+[`→ 圜丘天文说主动降级为研究假说，不进OUV。`,`→ The circular altar's astronomical interpretation should be presented as a research hypothesis and kept out of OUV.`],
+[`被<b>改名改标准</b>后列入。`,`The property was inscribed after its <b>name and criteria were changed</b>.`],
+[`→ 天文主张须有观测实证方可进入OUV——十三塔是实证，圜丘目前不是。`,`→ Astronomical claims need observational evidence to enter OUV: the Thirteen Towers provide it, while the circular altar currently does not.`],
+[`缺<b>风险预案</b>。`,`The nomination lacked a <b>risk-preparedness plan</b>.`],
+[`→ 管理类问题以"决定附件要求"写入决议，成为定期报告的长期负债。`,`→ Management issues are written into decisions as requests, creating long-term obligations in periodic reporting.`],
+[`被要求完善<b>游客管控与HIA</b>（遗产影响评估）。`,`ICOMOS requested stronger <b>visitor controls and Heritage Impact Assessment</b>.`],
+[`→ 中国项目管理侧整改项通常最多——这是ICOMOS明知委员会会放行时施加约束的主要工具。`,`→ Chinese projects often receive the most management-related requests, a key way for ICOMOS to impose constraints when Committee inscription appears likely.`],
+[`<b>入遗即列入濒危</b>名录。`,`The property was <b>placed on the Danger List upon inscription</b>.`],
+[`→ 保护状况失控的极端警示。`,`→ An extreme warning about loss of control over conservation.`],
+[`被要求持续清除"<b>不合规元素</b>"。`,`ICOMOS requested continuing removal of <b>"non-compliant elements"</b>.`],
+[`→ 遗址公园展示设施、女神庙保护展示馆的设计介入程度，是现场考察的固定检查点。`,`→ The design intervention of site-park displays and the Goddess Temple shelter is a routine focus of field evaluation.`]
+];
+I18N_DATA.push(
+[`坛 · 圜丘两分两至`,`Altar · Solar Alignments`],[`天文对应说`,`Astronomical Correlation`],[`庙 · 宗庙 / 偶像崇拜`,`Temple · Ancestor Hall / Image Cult`],[`女神庙定性`,`Interpreting the Goddess Temple`],[`冢 · 惟玉为葬`,`Tombs · Jade-only Burials`],[`葬玉制度`,`Jade Burial Institution`],[`轴线 · "中轴线"`,`Axis · The "Central Axis"`],[`空间秩序表述`,`Spatial Order`],[`玉礼系统`,`Jade Ritual System`],[`玉礼制源头`,`Origins of Jade Ritual`],[`南北交汇`,`North–South Interaction`],[`跨区域交流 · 标准(ii)`,`Interregional Exchange · Criterion (ii)`],[`文明延续`,`Civilisational Continuity`],[`"中华文明的直根系"`,`"The Direct Root of Chinese Civilisation"`],[`都邑定性`,`Urban Characterisation`],[`牛河梁＝都邑？`,`Was Niuheliang a City?`],
+[`圜丘与两分两至日出的天文对应缺乏观测实证与统计检验，属<b>C层假说</b>。钱基略以十三塔观测实证才获(i)(iv)；霍普韦尔的天文维度被加注"证据不足"。这些案例说明ICOMOS对天文主张的审查门槛极高。`,`The claimed correlation between the circular altar and sunrise at the solstices and equinoxes lacks observational evidence and statistical testing, making it a <b>Tier C hypothesis</b>. Chankillo gained criteria (i) and (iv) through the observational evidence of the Thirteen Towers, while Hopewell's astronomical dimension was marked "insufficient evidence". These cases demonstrate ICOMOS's high threshold for astronomical claims.`],
+[`写<b>形制与宇宙观表达</b>：三重圆坛作为"以圆形几何秩序组织礼仪空间"的物质遗存（卡拉尔下沉圆广场为同期平行实验，提供形态学旁证）；天文对应降为"研究中的假说"，以注脚形式呈现。`,`Write about <b>form and cosmological expression</b>: present the triple circular altar as material evidence of "ritual space organised through circular geometry", with Caral's sunken circular plaza as a contemporary morphological parallel. Present the astronomical correlation only as a "research hypothesis" in a note.`],
+[`多室殿堂格局、成组等身及超等身泥塑神像群（至少6个个体，最大为真人三倍）有<b>A层证据</b>；"宗庙"定性涉及祭祀对象解释，属B层。`,`The multi-room hall and groups of life-size to three-times-life-size clay figures (at least six individuals) have <b>Tier A evidence</b>. Identification as an "ancestor hall" interprets the object of worship and belongs to Tier B.`],
+[`主张"<b>东亚地区迄今所见年代最早的大型偶像崇拜建筑遗存</b>"，其依据是"最早＋大型＋偶像崇拜建筑"三点均有A层支撑；祭祀对象是谁不作断言（伯大尼先例：解释与实证分离）。`,`Claim the "<b>earliest known large-scale architectural remains for anthropomorphic cult images in East Asia</b>", because "earliest", "large-scale" and "building for cult images" are all supported by Tier A evidence. Do not assert who was worshipped, following Bethany's separation of interpretation from evidence.`],
+[`高等级积石冢随葬器物几乎唯玉，有发掘统计支撑；但作为<b>全称判断</b>存在反例风险（低等级墓、区域差异）。`,`High-status stone-mound tombs contain almost exclusively jade grave goods, supported by excavation statistics. As a <b>universal claim</b>, however, it risks counterexamples from lower-status burials and regional variation.`],
+[`限定为"<b>高等级积石冢唯玉为葬</b>"；以墓葬级差与器物组合关系为属性，器物清单作支撑证据（霍普韦尔先例）。`,`Limit the claim to "<b>jade-only burial in high-status stone-mound tombs</b>". Treat mortuary hierarchy and object associations as attributes, with object inventories as supporting evidence, following the Hopewell precedent.`],
+[`"中轴线"是后世都城制度概念，用于史前遗址易被质疑为<b>现代建构</b>；但坛庙冢的近南北向秩序有空间分析支撑。`,`The "central axis" is a concept from later capital planning. Applying it to a prehistoric site risks criticism as a <b>modern construction</b>, although the near north–south order of altar, temple and tombs is supported by spatial analysis.`],
+[`以"<b>礼仪性秩序的近南北向景观</b>"替代"中轴线"；以贝叶斯测年证明营建时段集中（5800—5200BP），以空间分析证明方向秩序，以出土情境证明功能分化。`,`Replace "central axis" with a <b>"near north–south landscape of ceremonial order"</b>. Use Bayesian dating to demonstrate concentrated construction (5800–5200 BP), spatial analysis to demonstrate orientation, and excavation context to demonstrate functional differentiation.`],
+[`玦形玉龙、勾云形佩、斜口筒形器等器类系统完整，可上接距今约9000年小南山—兴隆洼用玉传统；"源头"表述需防<b>线性史观</b>质疑。`,`The repertoire of jue-shaped dragons, hooked-cloud pendants and oblique-mouth tubular objects forms a coherent system linked to the roughly 9,000-year-old Xiaonanshan–Xinglongwa jade tradition. Claims of "origin" must avoid a <b>linear view of history</b>.`],
+[`主张"<b>全球最早的系统玉礼传统之一</b>"＋连续谱系证据链；写"由积石冢出土情境承载的礼制证据"，不把器物清单当属性。`,`Claim "<b>one of the world's earliest systematic jade ritual traditions</b>" with a continuous chain of evidence. Describe ritual evidence carried by the excavation contexts of stone-mound tombs rather than treating an object list as an attribute.`],
+[`郑家沟古基因组（24例人骨全基因组测序）证实直接遗传联系，是标准(ii)语境下<b>极罕见的硬证据</b>；但郑家沟不在遗产范围内，"影响方向与机制"需额外论证。`,`Ancient genomes from Zhengjiagou (whole-genome sequencing of 24 individuals) demonstrate direct genetic connections, providing <b>exceptionally rare hard evidence</b> for criterion (ii). Because Zhengjiagou lies outside the property, however, the direction and mechanism of influence require further argument.`],
+[`考虑申报标准(ii)作为<b>可选项</b>；备齐古基因组＋玉礼器组合＋仰韶特征彩陶三重证据链；正式申报前通过上游程序就(ii)的策略咨询ICOMOS（卡纳克被砍(ii)先例）。`,`Consider criterion (ii) as an <b>option</b>. Prepare a three-part chain of ancient genomes, jade assemblages and Yangshao-style painted pottery, and consult ICOMOS through the Upstream Process before nomination, taking account of Carnac's loss of criterion (ii).`],
+[`红山约5000BP因气候衰落，与后世<b>不存在可证的直线谱系传承</b>；"直根系"表述易被以"民族叙事"质疑，属C层。`,`Hongshan declined around 5000 BP amid climatic change, and <b>no direct genealogical succession</b> to later societies can be demonstrated. The "direct root" formulation is vulnerable to criticism as national narrative and belongs to Tier C.`],
+[`改"谱系延续"为"<b>持久影响</b>"（enduring influence）；把气候衰亡写进叙事反而增加可信度，回应"红山衰亡与文明连续性表述的关系"时应主动陈述。`,`Replace "genealogical continuity" with <b>"enduring influence"</b>. Acknowledging climatic decline strengthens credibility and should be addressed proactively when explaining the relationship between Hongshan's decline and civilisational continuity.`],
+[`牛河梁至今<b>未发现同期居住区证据</b>，"都邑"定性不成立；哥贝克力先例证明解释不确定不妨碍入遗。`,`No contemporary residential area has yet been found at Niuheliang, so the "city" characterisation is unsustainable. Göbekli Tepe demonstrates that interpretive uncertainty does not prevent inscription.`],
+[`放弃"都邑"，回归"<b>圣地/礼仪中心</b>"：卡拉尔官方名"Sacred City"证明该定性在ICOMOS体系中被接受；红山比卡拉尔更纯粹地位于礼仪中心一端——差异即独特性。`,`Abandon "city" and return to <b>"sacred place/ceremonial centre"</b>. Caral's official name, "Sacred City", shows that this characterisation is accepted within the ICOMOS system. Hongshan sits more purely at the ceremonial-centre end of the spectrum, and that difference is its distinction.`],
+[`为什么魏家窝铺（早千年）和红山后（命名地）属于同一OUV？`,`Why do Weijiawopu, nearly a millennium earlier, and Hongshanhou, the type site, share the same OUV?`],
+[`<b>每点贡献说明表。</b>红山后是命名地与研究史见证，魏家窝铺是早中期聚落（文化谱系连续性证据），牛河梁是礼仪高峰——逐点写明对OUV的贡献，主动解释年代差与水系分隔。`,`<b>Prepare a component-by-component contribution table.</b> Hongshanhou is the type site and a witness to research history; Weijiawopu is an early-to-middle-period settlement evidencing cultural continuity; Niuheliang represents the ceremonial peak. Explain each contribution to OUV and address the chronological and hydrological separation directly.`],
+[`与良渚的关系是什么，是否重复？`,`How does Hongshan relate to Liangzhu, and does it duplicate its values?`],
+[`<b>类型错位论证。</b>良渚是"早期国家/城市"，红山是"礼仪中心/礼制源头"——同文化圈内的两种社会复杂化路径，互补而非重复。`,`<b>Demonstrate typological differentiation.</b> Liangzhu represents an "early state/city", while Hongshan represents a "ceremonial centre/source of ritual institutions". They are complementary paths to social complexity within the same cultural sphere, not duplicates.`],
+[`与霍普韦尔、哥贝克力相比，红山的新信息是什么？`,`What new information does Hongshan offer compared with Hopewell and Göbekli Tepe?`],
+[`<b>礼仪制度化＋玉礼系统＋偶像建筑。</b>比霍普韦尔多出等级制度化（积石冢级差、玉器组合规则），比哥贝克力多出坛庙冢三合一的完整体系。`,`<b>Institutionalised ritual, a jade ritual system and architecture for cult images.</b> Hongshan adds institutionalised hierarchy to Hopewell (mortuary rank and rules for jade assemblages), and an integrated altar–temple–tomb system to Göbekli Tepe.`],
+[`圜丘天文功能的证据等级？`,`What is the evidence level for the circular altar's astronomical function?`],
+[`<b>主动降级。</b>承认为研究中的假说，不进OUV——展示学术诚实，避免被动修剪。`,`<b>Downgrade it proactively.</b> Acknowledge it as a research hypothesis and keep it out of OUV. This demonstrates scholarly integrity and avoids externally imposed cuts.`],
+[`"惟玉为葬"的统计边界？`,`What are the statistical limits of "jade-only burial"?`],
+[`<b>限定于高等级墓。</b>提供墓葬分级与随葬品统计表，不写全称判断。`,`<b>Limit it to high-status tombs.</b> Provide tables of mortuary rank and grave goods rather than making a universal claim.`],
+[`玉器作为可移动文物如何承载OUV？`,`How can portable jade objects carry OUV?`],
+[`<b>以出土情境与组合关系为属性</b>，器物为支撑证据——严格遵循霍普韦尔评估确立的定位。`,`<b>Treat excavation context and object associations as the attributes</b>, with the objects themselves as supporting evidence, strictly following the position established in the Hopewell evaluation.`],
+[`年代系统为何有公元前3700—前3100与距今5800两套？`,`Why are there two chronological frameworks: 3700–3100 BCE and around 5800 BP?`],
+[`<b>给出树轮校正报告与贝叶斯新测年的衔接说明</b>，统一口径并解释方法论差异。`,`<b>Explain how the radiocarbon calibration report connects with the new Bayesian dates</b>, harmonise the terminology and clarify the methodological difference.`],
+[`红山衰亡与"文明连续性"表述的关系？`,`How does Hongshan's decline relate to claims of "civilisational continuity"?`],
+[`<b>改"谱系延续"为"深远影响"。</b>把约5000BP的气候衰亡写进叙事——承认断裂反而增加可信度。`,`<b>Replace "genealogical continuity" with "enduring influence".</b> Include climate-related decline around 5000 BP in the narrative; acknowledging discontinuity increases credibility.`],
+[`三遗址跨省统一管理如何保障？`,`How will unified management across provinces be guaranteed for the three sites?`],
+[`<b>法律授权文件与联合管理机构实证。</b>辽宁、内蒙古两地的协调机制须有形文件支撑，而非承诺。`,`<b>Provide legal authorisation and evidence of a joint management body.</b> Coordination between Liaoning and Inner Mongolia must be documented rather than merely promised.`],
+[`遗址点选择原则？`,`What principles govern the selection of component sites?`],
+[`<b>51处遗址点的分级纳入逻辑与扩展接口。</b>为什么是这些点、新发现地点为何不纳入/纳入——预先编制贡献论证表。`,`<b>Establish a hierarchical rationale for the 51 components and an interface for future extension.</b> Prepare a contribution table explaining why these sites were selected and why new discoveries would or would not be included.`]
+);
+I18N_DATA.push(
+[`→ "下一次提名不应是目录，而应是表达OUV的有机结构"，因此牛河梁51处遗址点的分级纳入逻辑必须预先编制。`,`→ "The next nomination should not be an inventory but an organic structure expressing OUV." The rationale for including the 51 Niuheliang components must therefore be prepared in advance.`],
+[`→ 靠2012年ICOMOS咨询任务扭转，2013年入遗，成为上游程序的正面教材。`,`→ An ICOMOS advisory mission in 2012 helped reverse the outcome, leading to inscription in 2013. This is a positive lesson in using the Upstream Process.`],
+[`→ 六国从约1000处遗址精选111处并逐点论证后入遗，说明"每点贡献说明表"是系列遗产的标配。`,`→ Six countries selected 111 from roughly 1,000 sites and justified each one before inscription. A component-by-component contribution table is standard practice for serial properties.`],
+[`→ 委员会2014年翻盘列入，但红山不应把希望寄托在翻盘上。`,`→ The Committee reversed the recommendation and inscribed the property in 2014, but Hongshan should not rely on such a reversal.`],
+[`→ 解释与实证分离的经典：女神庙"祭祀对象是谁"无法证明，不妨碍"偶像崇拜建筑存在"成立，前提是文本从一开始分开陈述。`,`→ A classic separation of interpretation from evidence: the object of worship at the Goddess Temple cannot be proven, but the existence of a building for anthropomorphic cult images can still be established, provided the two claims are separated from the outset.`],
+[`→ 天文主张须有观测实证方可进入OUV：十三塔是实证，圜丘目前不是。`,`→ Astronomical claims need observational evidence to enter OUV: the Thirteen Towers provide it, while the circular altar currently does not.`],
+[`→ 中国项目管理侧整改项通常最多，因为这是ICOMOS明知委员会会放行时施加约束的主要工具。`,`→ Chinese projects often receive the most management-related requests, a key way for ICOMOS to impose constraints when Committee inscription appears likely.`],
+[`放弃"都邑"，回归"<b>圣地/礼仪中心</b>"：卡拉尔官方名"Sacred City"证明该定性在ICOMOS体系中被接受；红山比卡拉尔更纯粹地位于礼仪中心一端，这种差异即独特性。`,`Abandon "city" and return to <b>"sacred place/ceremonial centre"</b>. Caral's official name, "Sacred City", shows that this characterisation is accepted within the ICOMOS system. Hongshan sits more purely at the ceremonial-centre end of the spectrum, and that difference is its distinction.`],
+[`<b>每点贡献说明表。</b>红山后是命名地与研究史见证，魏家窝铺是早中期聚落（文化谱系连续性证据），牛河梁是礼仪高峰。需要逐点写明对OUV的贡献，主动解释年代差与水系分隔。`,`<b>Prepare a component-by-component contribution table.</b> Hongshanhou is the type site and a witness to research history; Weijiawopu is an early-to-middle-period settlement evidencing cultural continuity; Niuheliang represents the ceremonial peak. Explain each contribution to OUV and address the chronological and hydrological separation directly.`],
+[`<b>类型错位论证。</b>良渚是"早期国家/城市"，红山是"礼仪中心/礼制源头"，二者代表同文化圈内的两种社会复杂化路径，互补而非重复。`,`<b>Demonstrate typological differentiation.</b> Liangzhu represents an "early state/city", while Hongshan represents a "ceremonial centre/source of ritual institutions". They are complementary paths to social complexity within the same cultural sphere, not duplicates.`],
+[`<b>主动降级。</b>承认为研究中的假说，不进OUV，以此展示学术诚实，避免被动修剪。`,`<b>Downgrade it proactively.</b> Acknowledge it as a research hypothesis and keep it out of OUV. This demonstrates scholarly integrity and avoids externally imposed cuts.`],
+[`<b>以出土情境与组合关系为属性</b>，器物为支撑证据，严格遵循霍普韦尔评估确立的定位。`,`<b>Treat excavation context and object associations as the attributes</b>, with the objects themselves as supporting evidence, strictly following the position established in the Hopewell evaluation.`],
+[`<b>改"谱系延续"为"深远影响"。</b>把约5000BP的气候衰亡写进叙事，承认断裂反而增加可信度。`,`<b>Replace "genealogical continuity" with "enduring influence".</b> Include climate-related decline around 5000 BP in the narrative; acknowledging discontinuity increases credibility.`],
+[`<b>51处遗址点的分级纳入逻辑与扩展接口。</b>需要预先编制贡献论证表，说明为什么选择这些点，以及新发现地点为何纳入或不纳入。`,`<b>Establish a hierarchical rationale for the 51 components and an interface for future extension.</b> Prepare a contribution table explaining why these sites were selected and why new discoveries would or would not be included.`]
+);
+</script>
+
+<script>
+/* ================= BILINGUAL INTERFACE ================= */
+const I18N_STATIC=[
+[`红山申遗<small>HONGSHAN · WORLD HERITAGE</small>`,`Hongshan Heritage<small>HONGSHAN · WORLD HERITAGE</small>`],
+[`方法与来源`,`Methods & Sources`],[`评审机制`,`Evaluation`],[`跨文明比较`,`Comparison`],[`负面清单`,`Negative List`],[`红山占位`,`Hongshan's Position`],[`命题风险`,`Claim Risks`],[`推荐OUV`,`Recommended OUV`],[`路线图`,`Roadmap`],[`章节导航`,`Menu`],[`关闭`,`Close`],
+[`世界遗产申报 · ICOMOS评估预判研究`,`WORLD HERITAGE NOMINATION · ICOMOS EVALUATION OUTLOOK`],
+[`红山文化申遗<br><em>跨文明坐标下的价值与风险</em>`,`Hongshan Culture<br><em>Value and Risk in a Cross-Civilizational Perspective</em>`],
+[`以ICOMOS评估机制为镜，梳理<b>18处可比遗产</b>的通过论据与削减记录、<b>五类失败案例</b>的逆向归因，以及<b>八条OUV命题</b>的证据分级与风险转写。这些材料共同回答一个问题：红山凭什么入遗，以及怎样写才不会被砍掉。`,`Drawing on the ICOMOS evaluation process, this study reviews <b>18 comparable World Heritage properties</b>, reverse-engineers <b>five categories of failure</b>, and grades the evidence behind <b>eight OUV propositions</b>. Together, these materials answer one question: why does Hongshan merit inscription, and how can its nomination avoid being cut down?`],
+[`可比遗产档案`,`Comparable properties`],[`负面清单类别`,`Failure categories`],[`OUV命题风险核验`,`OUV claims audited`],[`委员会翻盘先例（/87）`,`Committee reversals (/87)`],[`向下滚动`,`Scroll down`],
+[`方法`,`METHOD`],[`数据来源与证据分层：<em>先区分事实、阐释与假说</em>`,`Sources and Evidence: <em>Distinguishing Fact, Interpretation and Hypothesis</em>`],
+[`本页以项目组《红山文化申遗ICOMOS比较预判研究》和《红山文化申遗OUV命题核验报告》为研究底稿。每项主张先追溯来源，再判断证据等级；公共传播中的说法不能直接进入OUV声明。`,`This site is based on two project reports: a comparative ICOMOS evaluation study and an evidence audit of Hongshan's OUV propositions. Every claim is traced to its source before its evidence level is assessed; claims circulating in public media cannot enter the OUV statement directly.`],
+[`S1 · 程序基线`,`S1 · Procedural Baseline`],[`官方申报与国际文件`,`Official Nomination and International Records`],[`UNESCO预备名单、申报文本、ICOMOS评估报告与委员会决议，用于确认申报口径和评审规则。`,`UNESCO Tentative List entries, nomination dossiers, ICOMOS evaluations and Committee decisions establish the official position and evaluation rules.`],[`查看 UNESCO 预备名单第5804号 ↗`,`View UNESCO Tentative List entry 5804 ↗`],
+[`S2 · 分级主依据`,`S2 · Primary Evidence`],[`考古与学术研究`,`Archaeological and Academic Research`],[`正式考古报告、同行评议论文和正式刊布的测年数据，是判断考古事实与学术阐释的主要依据。`,`Formal excavation reports, peer-reviewed research and formally published dates are the primary basis for assessing archaeological facts and interpretations.`],
+[`S3 · 明确归属`,`S3 · Named Attribution`],[`署名学派观点`,`Attributed Scholarly Views`],[`学者或学派提出的解释必须归属到具体提出者，通常列入B层或C层，不写成无争议事实。`,`Interpretations must be attributed to their named proponents, normally placed in Tier B or C, and never presented as uncontested facts.`],
+[`S4 · 风险线索`,`S4 · Risk Signals`],[`公共传播材料`,`Public Communication`],[`纪录片、媒体报道和网络二次创作只用于识别需要核验或转写的表述，不作为证据分级依据。`,`Documentaries, media reports and online adaptations are used only to identify claims requiring verification or reframing, not as evidence for grading.`],
+[`S5 · 追溯刊布`,`S5 · Trace Publication`],[`国家工程与官方发布`,`National Projects and Official Releases`],[`探源工程成果和国家文物局通报具有较高权重，同时仍需追溯其背后的正式刊布状态。`,`Results from the national origins project and National Cultural Heritage Administration releases carry substantial weight, but their underlying publication status must still be traced.`],
+[`可核验的考古事实`,`Verifiable Archaeological Facts`],[`限于形制、地层、测年和出土背景等物质遗存描述，并有正式报告、同行评议研究或国家工程正式发布支持，且未见具名实质异议。<b>三项条件必须同时满足。</b>`,`Restricted to descriptions of form, stratigraphy, dating and excavation context, supported by formal reports, peer-reviewed research or official national-project releases, with no named substantive objection recorded. <b>All three conditions must be met.</b>`],
+[`多来源支持的学术阐释`,`Interpretations Supported by Multiple Sources`],[`解释性判断须获得两个以上独立学术来源支持，且没有系统性的具名实证反驳。行文以“学术界认为”“研究表明”等措辞明确其阐释属性。`,`An interpretation requires support from at least two independent academic sources and no systematic, named empirical rebuttal. Phrases such as "scholars argue" or "research suggests" must make its interpretive status explicit.`],
+[`归属明确的待证假说`,`Clearly Attributed Hypotheses`],[`观点仅属于个人或小群体、存在具名反驳，或仅见于非同行评议渠道，满足任一项即入C层。只能作为研究假说呈现，不能写成确定结论。`,`A view enters Tier C if it belongs to an individual or small group, faces a named rebuttal, or appears only in non-peer-reviewed channels. Any one condition suffices. It may be presented only as a hypothesis, never as a settled conclusion.`],
+[`阅读边界与强制降级规则`,`Scope and Mandatory Downgrading`],[`<b>一旦出现具名反证，相关表述即降为C层，并同时呈现质疑意见。</b>B层和C层内容不得作为无条件事实直接进入OUV声明。`,`<b>Any named counter-evidence immediately places a claim in Tier C, and the objection must be presented alongside it.</b> Tier B and C claims cannot enter the OUV statement as unconditional facts.`],
+[`跨文明坐标和图版中的证据比例属于研究性示意，不是ICOMOS官方分类或统计计量。尚处简报或报道阶段的新发现不按正式刊布证据使用；比较案例主要依据评估报告关键章节、委员会决议和权威二手研究，并非逐字检读全部卷宗。`,`The cross-civilizational coordinates and evidence proportions are research visualisations, not official ICOMOS classifications or statistical measurements. Discoveries available only in preliminary reports or media coverage are not treated as formally published evidence. Comparisons rely on key evaluation chapters, Committee decisions and authoritative secondary research rather than exhaustive reading of every dossier.`],
+[`ICOMOS评估机器如何运转：<em>三支柱、四档建议与翻盘率</em>`,`How the ICOMOS Evaluation Works: <em>Three Pillars, Four Recommendations and Committee Reversals</em>`],
+[`世界遗产评审不是投票表决，而是一台有固定程序的评估机器：ICOMOS以<b>三支柱</b>检验申报文本，给出<b>四档建议</b>，委员会再做最终裁决。理解这台机器的运转方式，是所有申报策略的起点。`,`World Heritage evaluation follows a fixed procedure rather than a simple vote. ICOMOS tests nominations against <b>three pillars</b> and issues <b>one of four recommendations</b>, after which the Committee makes the final decision. Understanding this process is the starting point for every nomination strategy.`],
+[`具否决权`,`Veto power`],[`突出的普遍价值 OUV`,`Outstanding Universal Value`],[`ICOMOS虽然承认纳姆堡大教堂的真实性、完整性与保护管理全部达标，但仍因OUV不成立而三度建议不予列入。OUV是三支柱中唯一具否决权的一柱。`,`Although ICOMOS accepted Naumburg Cathedral's authenticity, integrity, protection and management, it recommended non-inscription three times because the OUV was insufficient. OUV is the only pillar with effective veto power.`],
+[`真实性 · 完整性`,`Authenticity · Integrity`],[`红山实际处于有利位置：积石冢与坛庙遗存未经大规模重建，多数发掘点回填保护。这与绳文"保护性覆土+可移除复原模型"的做法一致，是ICOMOS欣赏的处理方式。`,`Hongshan is favourably positioned: its stone-mound tombs and altar-temple remains have not undergone large-scale reconstruction, and most excavated areas have been reburied. This is consistent with the Jōmon approach of protective backfilling and removable reconstructions, which ICOMOS views positively.`],
+[`保护与管理`,`Protection and Management`],[`管理问题不阻挡列入，但会以"决定附件要求"写入委员会决议，成为定期报告的长期负债。中国项目在管理侧被要求的整改项通常最多。`,`Management issues do not necessarily block inscription, but they are recorded as requests in Committee decisions and become long-term periodic-reporting obligations. Chinese projects often receive the largest number of management-related requests.`],
+[`列入`,`Inscription`],[`文本一次通过。前提是OUV论证、比较分析、选点逻辑全部在送审前闭合。`,`The nomination passes at the first attempt, provided the OUV argument, comparative analysis and component-selection logic are complete before submission.`],[`红山目标档位 · <b>力争</b>`,`Hongshan's target · <b>Aim high</b>`],
+[`发还待议`,`Referral`],[`补交材料即可修复，通常是选点说明、管理文件、比较分析的局部补强。`,`Issues can be resolved through supplementary material, usually limited improvements to component selection, management documents or comparative analysis.`],[`红山底线档位 · <b>不低于此</b>`,`Hongshan's minimum · <b>Do not fall below</b>`],
+[`推迟`,`Deferral`],[`要求重大重构：OUV重写、系列逻辑重做。历史上委员会对Deferral的翻盘率为47/87。`,`A major reconstruction is required, including rewriting OUV and rethinking the serial logic. Historically, the Committee reversed 47 of 87 Deferral recommendations.`],[`不可寄望翻盘 · <b>尽量避免</b>`,`Do not rely on reversal · <b>Avoid</b>`],
+[`不予列入`,`Non-inscription`],[`OUV根本不成立，几乎不可翻盘。泉州2018年即此档，用三年彻底重构叙事才翻身。`,`OUV is fundamentally insufficient and reversal is extremely unlikely. Quanzhou received this recommendation in 2018 and required three years of complete narrative restructuring.`],[`绝对不能落入 · <b>红线</b>`,`Outcome to avoid · <b>Red line</b>`],
+[`<b>委员会翻盘率：</b>2009—2025年间，ICOMOS建议Deferral的87个项目中，47个被委员会直接改为列入。但翻盘集中在政治动员能力强的缔约国，因此<b>把希望寄托在委员会翻盘，等于承认文本失败</b>。红山的策略目标：ICOMOS建议不低于Referral，力争Inscription。`,`<b>Committee reversal rate:</b> Between 2009 and 2025, the Committee directly inscribed 47 of 87 properties recommended for Deferral. Reversals were concentrated among States Parties with strong political mobilisation, so <b>relying on a Committee reversal amounts to admitting that the nomination has failed</b>. Hongshan's goal is no lower than Referral, while aiming for Inscription.`],
+[`策略目标`,`Strategic goal`],[`≥ Referral，力争列入`,`≥ Referral, aiming for Inscription`],
+[`评估时间轴：从补充材料到大会裁决的十五个月`,`Evaluation Timeline: Fifteen Months from Supplementary Information to Committee Decision`],
+[`9—10月`,`Sep–Oct`],[`补充说明信`,`Request for Information`],[`ICOMOS就文本疑点发出补充材料要求，是第一轮书面交锋。`,`ICOMOS requests clarification of issues in the dossier, opening the first round of written exchange.`],
+[`12—1月`,`Dec–Jan`],[`中期报告`,`Interim Report`],[`Interim Report给出初步关切清单，是修复文本的最后窗口。`,`The Interim Report identifies initial concerns and provides the final window for strengthening the dossier.`],
+[`2月底`,`Late Feb`],[`补充材料截止`,`Supplementary Material Deadline`],[`所有补证、修订说明提交截止，此后文本冻结。`,`All additional evidence and revisions are due, after which the dossier is frozen.`],
+[`3月`,`March`],[`专家小组会`,`ICOMOS Panel`],[`ICOMOS Panel闭门评议，形成建议档位与决定草案。`,`The ICOMOS Panel meets in closed session to formulate its recommendation and draft decision.`],
+[`会前6周`,`6 Weeks Before`],[`建议公布`,`Recommendation Published`],[`评估结论公开，缔约国进入委员会游说期。`,`The evaluation is published and the State Party enters the Committee advocacy phase.`],
+[`6—7月`,`June–July`],[`委员会大会`,`Committee Session`],[`21国委员会审议裁决，可维持、降级或翻盘ICOMOS建议。`,`The 21-member Committee makes the final decision and may uphold, downgrade or reverse the ICOMOS recommendation.`],
+[`跨文明坐标系：<em>红山的空位是真实的</em>`,`A Cross-Civilizational Coordinate System: <em>Hongshan's Vacancy Is Real</em>`],
+[`按ICOMOS《填补空白》报告的<b>类型学—年代区域—主题</b>三重框架，检出名录上全部18处可比遗产。在<b>距今6000—5000年 × 高礼仪性</b>的象限内，东亚完全空白。良渚填的是"早期国家/城市"格，<b>"礼仪中心"格仍然空着</b>。悬停查看每处遗产档案。`,`Using the typological, chronological-regional and thematic framework of ICOMOS's <b>Filling the Gaps</b>, this study identifies 18 comparable properties. In the quadrant of <b>6000–5000 BP × high ceremonial centrality</b>, East Asia is empty. Liangzhu occupies "early state/city"; the <b>"ceremonial centre" position remains vacant</b>. Hover or tap to view each property.`],
+[`年代 × 礼仪中心性 · 全球新石器—早期复杂社会遗产分布`,`Date × Ceremonial Centrality · Global Neolithic and Early Complex-Society Properties`],
+[`<i style="background:#2e7d5b"></i>红山（申报对象）`,`<i style="background:#2e7d5b"></i>Hongshan (candidate)`],[`<i style="background:#b08d3c"></i>欧洲`,`<i style="background:#b08d3c"></i>Europe`],[`<i style="background:#8d8577"></i>西亚`,`<i style="background:#8d8577"></i>West Asia`],[`<i style="background:#5b7f9b"></i>美洲`,`<i style="background:#5b7f9b"></i>Americas`],[`<i style="background:#a06a3c"></i>东亚/大洋洲`,`<i style="background:#a06a3c"></i>East Asia/Oceania`],
+[`可左右滚动的跨文明比较坐标图`,`Horizontally scrollable cross-civilizational comparison chart`],[`跨文明比较坐标图`,`Cross-civilizational comparison chart`],[`左右滑动查看完整坐标图；点按遗产点位可查看图片与档案。`,`Swipe horizontally to view the full chart; tap a point for its image and profile.`],
+[`空位判读`,`Reading the vacancy`],[`为便于辨认，相邻点位在年代轴上做了一百至两百年内的示意性错开。虚线椭圆内：<b>东亚新石器礼仪中心</b>是名录真空。最危险的撞车不是良渚，而是<b>霍普韦尔</b>（空置礼仪中心）与<b>哥贝克力</b>（最早纪念性），因此红山文本必须主动论证差异：比霍普韦尔多出"等级制度化"，比哥贝克力多出"坛庙冢三合一体系"。卡拉尔—苏佩的"Sacred City"命名先例，则为红山回归"圣地"定位提供了ICOMOS体系内的合法名分。`,`Adjacent points are offset by one to two centuries for legibility. The dashed ellipse marks the List's vacancy for an <b>East Asian Neolithic ceremonial centre</b>. The closest challenges are not Liangzhu but <b>Hopewell</b> (an unoccupied ceremonial centre) and <b>Göbekli Tepe</b> (earliest monumentality). Hongshan must therefore distinguish itself through institutionalised hierarchy beyond Hopewell and an integrated altar–temple–tomb system beyond Göbekli. Caral-Supe's official "Sacred City" name provides an accepted precedent for Hongshan's sacred-place positioning.`],
+[`全部 18 处`,`All 18 comparators`],[`礼仪/纪念中心`,`Ritual/Monumental Centres`],[`墓葬礼仪/巨石`,`Mortuary Ritual/Megaliths`],[`聚落/早期国家`,`Settlements/Early States`],[`关键先例`,`Key Precedents`],
+[`距今年代（BP）· 左早右晚`,`Years BP · older left, younger right`],[`礼仪中心性 →`,`Ceremonial centrality →`],[`东亚新石器礼仪中心 · 名录空位`,`East Asian Neolithic ceremonial centre · vacant`],
+[`负面清单：<em>别人怎么失败的，红山就怎么写</em>`,`The Negative List: <em>Learning from Failed Nominations</em>`],[`将2009—2025年间同类遗产的Refer/Defer及标准削减案例按失败原因归因为<b>五类</b>。每一类都对应红山文本的一条写作纪律。点击分类即可筛选。`,`Referral, Deferral and criterion-reduction cases from 2009 to 2025 are grouped into <b>five causes of failure</b>. Each corresponds to a writing rule for Hongshan. Select a category to filter.`],
+[`全部案例`,`All cases`],[`A类 · OUV不成立`,`A · Insufficient OUV`],[`B类 · 选点/比较失败`,`B · Selection/Comparison`],[`C类 · 真实性争议`,`C · Authenticity`],[`D类 · 标准削减`,`D · Criteria Reduced`],[`E类 · 管理问题`,`E · Management`],
+[`红山的独特占位：<em>名录无法提供的四项属性</em>`,`Hongshan's Distinctive Position: <em>Four Attributes Not Represented on the List</em>`],[`差距论证只能作为"服务于OUV论证的辅证"，因为泉州判词已经明确：<b>"名录存在空白不是列入的理由"</b>。在此约束下，红山可以主张四项名录现存遗产无法提供的属性。`,`A gap analysis may only support the OUV argument. As the Quanzhou verdict states, <b>"a gap in the List is not a reason for inscription"</b>. Within this constraint, Hongshan can claim four attributes not represented by existing properties.`],
+[`大型偶像崇拜建筑与成组泥塑神像群`,`Large-Scale Cult-Image Architecture and Clay Figure Groups`],[`距今5800年前后，女神庙以多室半地穴殿堂容纳真人大至真人三倍的人像群（至少6个个体）。哥贝克力是抽象T形石柱，马耳他雕像属室内陈设，恰塔尔休于无独立偶像殿堂。与此相比，<b>全球同期没有对标</b>，可直接支撑标准(iii)的"特殊见证"。`,`Around 5800 BP, the Goddess Temple's multi-room semi-subterranean hall contained at least six figures ranging from life-size to three times life-size. Göbekli has abstract T-shaped pillars, Malta's statues are interior furnishings, and Çatalhöyük has no independent image hall. <b>No contemporary global parallel</b> offers a comparably direct testimony under criterion (iii).`],
+[`体系化玉礼器系统与9000年证据链`,`Systematic Jade Ritual Objects and a 9,000-Year Evidence Chain`],[`名录上没有任何遗产以玉器为OUV属性。红山玦形玉龙、勾云形佩、斜口筒形器可上接距今约9000年的小南山—兴隆洼用玉传统，构成<b>全球连续性最长的玉文化证据链</b>。根据霍普韦尔先例，器物是支撑证据，出土情境（context）才是属性。`,`No listed property uses jade objects as an OUV attribute. Hongshan's jue-shaped dragons, hooked-cloud pendants and tubular objects connect to the roughly 9,000-year-old Xiaonanshan–Xinglongwa tradition, forming an <b>exceptionally long chain of jade-cultural evidence</b>. Following Hopewell, the objects support the evidence while their excavation context constitutes the attribute.`],
+[`"无城、无文字、无金属"的礼仪驱动路径`,`A Ritual-Driven Path "Without Cities, Writing or Metal"`],[`名录上的早期复杂社会叙事几乎全被"城市—国家"或"纪念物工程"占据。红山展示了<b>通过礼仪信仰整合实现社会等级化的第三条路径</b>：50平方公里礼仪区、10万平方米台基群和600公里外玉料输入，共同说明这里有人群动员能力而无城市设施。`,`Listed narratives of early complex societies are dominated by "city–state" or "monumental construction" models. Hongshan demonstrates a <b>third path to social hierarchy through ritual integration</b>: a 50 km² ceremonial zone, 100,000 m² of platforms and jade imported from 600 km away demonstrate mobilisation without urban infrastructure.`],
+[`坛、庙、冢三要素同一规划单元共存`,`Altar, Temple and Tombs within One Planned Unit`],[`祭坛（天）、偶像庙（祖）、等级墓葬（社会秩序）构成"宇宙观—祖先观—等级制"三位一体。马耳他只有庙，博因河只有墓，钱基略只有观测复合体，奥克尼含定居村落。与此相比，<b>"体系完整性"是标准(iv)下最硬的论据</b>。良渚已占"城市"格，红山必须走差异化。`,`Altars (heaven), an image temple (ancestors) and ranked tombs (social order) integrate cosmology, ancestor veneration and hierarchy. Malta has temples, Brú na Bóinne has tombs, Chankillo has an observatory complex, and Orkney includes a settlement. By comparison, <b>systemic completeness is Hongshan's strongest argument under criterion (iv)</b>. Liangzhu already occupies the urban position, so Hongshan must differentiate itself.`],
+[`八条OUV命题：<em>证据分级与风险转写</em>`,`Eight OUV Propositions: <em>Evidence Grades and Risk-Safe Rewriting</em>`],[`对2013年预备名单文本（编号5804）的八条核心命题逐条核验：按<b>A层（考古实证）/ B层（学术共识）/ C层（假说推断）</b>分级，标注风险档位，给出转写方案。<b>点击每行展开</b>风险依据与转写建议。`,`Eight core propositions from the 2013 Tentative List entry (5804) are audited and classified as <b>Tier A (archaeological evidence), Tier B (scholarly interpretation) or Tier C (hypothesis)</b>, with risk levels and safer formulations. <b>Select a row to expand</b> its rationale and recommended rewriting.`],
+[`<i style="background:#c0554a"></i>高风险 · 必须改写`,`<i style="background:#c0554a"></i>High risk · Rewrite`],[`<i style="background:#c07f4a"></i>中高风险 · 限定表述`,`<i style="background:#c07f4a"></i>Medium-high · Qualify`],[`<i style="background:#C9B46D"></i>中风险 · 备证据链`,`<i style="background:#C9B46D"></i>Medium · Evidence needed`],[`<i style="background:#8fBCA3"></i>低风险 · 可入声明`,`<i style="background:#8fBCA3"></i>Low · Statement-ready`],
+[`高风险`,`High risk`],[`中高风险`,`Medium-high`],[`中风险`,`Medium risk`],[`低风险`,`Low risk`],[`低/中风险`,`Low/medium`],[`高→低风险`,`High→low`],[`证据 <b>A</b>`,`Evidence <b>A</b>`],[`证据 <b>B</b>`,`Evidence <b>B</b>`],[`证据 <b>C</b>`,`Evidence <b>C</b>`],[`证据 <b>A/B</b>`,`Evidence <b>A/B</b>`],[`证据 <b>—</b>`,`Evidence <b>—</b>`],[`风险依据`,`Risk rationale`],[`转写建议`,`Recommended rewriting`],
+[`05·补`,`05·PLUS`],[`ICOMOS答辩模拟：<em>十个预判问题</em>`,`Mock ICOMOS Defence: <em>Ten Anticipated Questions</em>`],
+[`推荐价值阐述：<em>往A层证据的方向大胆</em>`,`Recommended Value Statement: <em>Be Ambitious with Tier A Evidence</em>`],[`2013年文本保守，因为当时证据有限；2026年的新文本可以更大胆，因为证据底座已经新增9座台基建筑群（约10万平方米）、贝叶斯测年5800BP集中营建和郑家沟古基因组。但大胆的方向必须是<b>往A层证据的方向大胆</b>，而不是往C层假说的方向大胆。`,`The 2013 text was conservative because the evidence was limited. The 2026 statement can be more ambitious thanks to nine platforms (about 100,000 m²), Bayesian dating around 5800 BP and ancient genomes from Zhengjiagou. Its ambition must, however, rest on <b>Tier A evidence rather than Tier C hypotheses</b>.`],
+[`申报`,`Proposed`],[`可选`,`Optional`],[`不用`,`Do not use`],[`礼仪建筑群杰作，以9座台基建筑群为锚点`,`A masterpiece of ritual architecture anchored in nine platforms`],[`特殊见证：最早大型偶像崇拜建筑＋制度化玉礼系统`,`Exceptional testimony: early cult-image architecture and institutionalised jade ritual`],[`类型范例：坛庙冢三合一礼仪建筑组合`,`Typological example: an integrated altar–temple–tomb ensemble`],[`跨区域交流：古基因组硬证据，需预演"影响方向"质疑`,`Interregional exchange: genomic evidence requires preparation for questions about direction of influence`],[`与现存社群无直接活态关联，不可用`,`Not applicable: no direct living association with present communities`],
+[`红山文化遗址（牛河梁、红山后、魏家窝铺）是东亚地区新石器时代晚期（距今约6000—5000年）一处<b>独立于聚落之外、经统一规划的大型礼仪中心</b>与<b>制度化玉礼系统</b>的杰出范例。牛河梁遗址以距今5800年前后集中建成的<b>9座台基建筑群</b>为核心，整合了<b>坛（祭天）、庙（祭祖）、冢（葬玉）</b>三类礼仪建筑，构成人类历史上礼仪建筑组合的早期杰出类型；其出土的<b>大型偶像崇拜泥塑群</b>与<b>等级化玉礼器系统</b>，为东亚地区迄今所见年代最早、体系最完整的礼仪制度物质见证。红山文化遗址同时见证了燕山南北多支史前文化的人群流动与价值交流，包括与千里之外长江下游史前社会上层的知识网络。`,`The Sites of Hongshan Culture (Niuheliang, Hongshanhou and Weijiawopu) constitute an outstanding example of a <b>large-scale, deliberately planned ceremonial centre separate from settlements</b> and an <b>institutionalised jade ritual system</b> in Late Neolithic Northeast Asia (c. 6000–5000 BP). Centred on <b>nine terraced platforms</b> constructed around 5800 BP, Niuheliang integrates <b>altars, a temple and stone mound tombs with jade burials</b> into an early outstanding ensemble of ritual architecture. Its <b>large-scale anthropomorphic clay figures</b> and <b>hierarchically graded jade assemblages</b> provide the earliest and most complete material testimony to institutionalised ritual known in East Asia. The property also bears witness to interregional mobility and exchange across the Yan Mountain corridor, including long-distance networks with elite communities in the Lower Yangtze region.`],
+[`三条纪律`,`Three rules`],[`① <b>圜丘天文说</b>不进OUV，降为研究假说作注脚（钱基略先例：天文主张须有观测实证）；② <b>"惟玉为葬"</b>限定于高等级积石冢，不写全称判断；③ <b>放弃"都邑"定性</b>，回归"圣地/礼仪中心"，其依据是卡拉尔"Sacred City"命名与哥贝克力"解释不确定不妨碍入遗"双重先例。类别上坚持"考古遗址组合"，不碰"文化景观"（卡纳克2025年被拒先例）。`,`① Keep the <b>circular altar's astronomical interpretation</b> out of OUV and present it as a research hypothesis, following Chankillo's requirement for observational evidence. ② Limit <b>"jade-only burial"</b> to high-status stone-mound tombs rather than making a universal claim. ③ <b>Abandon "city"</b> in favour of "sacred place/ceremonial centre", supported by Caral's "Sacred City" name and Göbekli's demonstration that interpretive uncertainty does not prevent inscription. Remain an archaeological site ensemble and avoid cultural landscape status, which Carnac lost in 2025.`],
+[`下一步工作路线图：<em>让最挑剔的眼睛先看过一遍</em>`,`Next Steps: <em>Let the Most Critical Reviewers See It First</em>`],[`程序、文本、证据、管理四条线并行。负面清单教给红山最朴素的一课：<b>在正式申报前，通过上游程序让ICOMOS先介入</b>。拉贾斯坦山地堡垒正是靠ICOMOS咨询任务把"不予列入"扭转为可修复的Referral。`,`Procedure, text, evidence and management must advance in parallel. The clearest lesson from the negative list is to <b>engage ICOMOS through the Upstream Process before formal nomination</b>. An advisory mission helped turn the Hill Forts of Rajasthan from non-inscription into a resolvable Referral.`],
+[`NOW · 申报前12—18个月`,`NOW · 12–18 months before nomination`],[`更新 Tentative List（编号5804）`,`Update the Tentative List (Entry 5804)`],[`2013年报备文本距今已13年。若新文本的遗产构成、年代框架（5500—5000年 → 6000—4800年）或OUV主张与报备有实质差异，<b>必须先更新预备名单条目</b>，否则ICOMOS将以"遗产构成与报备不符"提出程序性质疑。`,`Thirteen years have passed since the 2013 submission. If the property components, chronology (5500–5000 BP → 6000–4800 BP) or OUV claims differ materially, <b>the Tentative List entry must be updated first</b>, or ICOMOS may raise a procedural objection.`],
+[`程序红线`,`Procedural red line`],[`UNESCO报备`,`UNESCO submission`],[`NOW · 持续`,`NOW · Ongoing`],[`上游程序与初步评估`,`Upstream Process and Preliminary Assessment`],[`充分利用 Upstream Process 与 Preliminary Assessment 机制，正式提名前邀请ICOMOS介入咨询；延续2026年5月北京"红山文化遗址世界文化遗产价值国际专家研讨会"的方向，<b>让最挑剔的眼睛先看过一遍</b>。`,`Use the Upstream Process and Preliminary Assessment to involve ICOMOS before nomination, continuing the direction of the May 2026 Beijing international expert workshop and <b>letting the most critical reviewers examine the case first</b>.`],[`国际专家咨询`,`International expert review`],
+[`文本工程`,`Text Development`],[`三遗址逐点"OUV贡献说明表"`,`Component-by-Component OUV Contribution Table`],[`红山后（命名地与研究史见证）、魏家窝铺（早中期聚落，与牛河梁分属水系、早数百年）的OUV几乎全部由牛河梁承载，因此必须为每一点写出明确的贡献说明，主动解释年代差与水系分隔，否则就是<b>泉州剧本的史前版</b>。同步编制51处遗址点的分级纳入逻辑。`,`Because Niuheliang carries nearly all the OUV, Hongshanhou (type site and research history) and Weijiawopu (an earlier settlement in a different water system) need explicit contribution statements. Explain the chronological and hydrological separation to avoid a <b>prehistoric version of Quanzhou's failure</b>, and prepare a hierarchical rationale for the 51 components.`],[`贡献说明表`,`Contribution table`],[`选点逻辑`,`Selection logic`],[`比较分析`,`Comparative analysis`],
+[`预埋扩展接口`,`Plan for Future Extension`],[`上朝阳沟（距牛河梁6.5公里、约12万平方米、27座房址）若证实为晚期聚落，可作为"礼仪中心的同期生活剖面"纳入扩展；郑家沟（古基因组实证人群流动）为二期扩展候选；东山嘴等扩展逻辑须在首轮文本中预埋。`,`If Shangchaoyanggou (6.5 km away, about 120,000 m², 27 house remains) is confirmed as a late settlement, it could extend the property with a contemporary residential dimension. Zhengjiagou, with genomic evidence of mobility, is a second-phase candidate. These extension rationales, including Dongshanzui, should be anticipated in the first dossier.`],[`上朝阳沟`,`Shangchaoyanggou`],[`郑家沟`,`Zhengjiagou`],[`系列扩展`,`Serial extension`],
+[`管理整改`,`Management Actions`],[`管理侧六项预判整改`,`Six Anticipated Management Actions`],[`跨省（辽宁、内蒙古）统一管理机构的<b>法律授权文件</b>；51处遗址点全覆盖监测体系；N16等飞地点位与主区协调；村庄搬迁与民生补偿；旅游承载量与展示设施<b>遗产影响评估（HIA）</b>；土遗址防风化与排水长期技术路线。`,`Provide <b>legal authorisation</b> for a joint Liaoning–Inner Mongolia body; monitoring across all 51 components; coordination of detached components such as N16; village relocation and livelihood compensation; <b>Heritage Impact Assessment</b> for tourism and display facilities; and long-term weathering and drainage measures for earthen remains.`],[`联合管理机构`,`Joint management body`],[`监测体系`,`Monitoring system`],
+[`证据管理`,`Evidence Management`],[`新发现刊布节奏`,`Publication Schedule for New Discoveries`],[`台基建筑群发掘报告、郑家沟遗址报告尚未正式刊布，因此OUV声明引用的每一项新证据，都必须在评审启动前<b>可核验、可引用</b>。管理出版节奏，让证据链与申报时间轴对齐。`,`The platform excavation report and Zhengjiagou site report have not yet been formally published. Every new item cited in the OUV statement must therefore be <b>verifiable and citable</b> before evaluation begins. Publication must be coordinated with the nomination timeline.`],[`报告刊布`,`Report publication`],[`贝叶斯测年`,`Bayesian dating`],[`证据可核验`,`Verifiable evidence`],
+[`附`,`APPENDIX`],[`研究底稿图版 <em>（点击放大，可缩放）</em>`,`Research Charts <em>(Select to Enlarge and Zoom)</em>`],[`图1 · 命题证据分级与风险总览`,`Chart 1 · Evidence Grades and Risk Overview`],[`图2 · 红山文化与比较遗产年代坐标`,`Chart 2 · Hongshan and Comparative Chronology`],[`图3 · 类型学定位与名录占位`,`Chart 3 · Typological Position and List Vacancy`],[`图4 · 负面清单归因图谱`,`Chart 4 · Negative-List Causal Map`],
+[`红山文化遗址 · 世界遗产申报策略研究`,`Sites of Hongshan Culture · World Heritage Nomination Strategy`],[`内容依据：《ICOMOS比较预判研究》《OUV命题核验报告》《OUV重构方案（2026版）》<br>遗产图片：Wikimedia Commons / 公共领域 · 研究图版：项目组`,`Sources: ICOMOS Comparative Outlook, OUV Evidence Audit and OUV Restructuring Proposal (2026)<br>Property images: Wikimedia Commons / public domain · Research charts: project team`],
+[`研究图版放大预览`,`Enlarged research chart`],[`缩小`,`Zoom out`],[`放大`,`Zoom in`],[`关闭图版`,`Close chart`],[`放大的研究图版`,`Enlarged research chart`],[`使用按钮或双指缩放；放大后可拖动查看细节`,`Use the buttons or pinch to zoom; drag to inspect details`],
+[`牛河梁遗址航拍`,`Aerial view of Niuheliang`],[`牛河梁遗址`,`Niuheliang archaeological site`],[`玉猪龙`,`Jade pig-dragon`],[`C形玉龙`,`C-shaped jade dragon`],[`对照：良渚`,`Comparison: Liangzhu`],[`命题证据分级与风险总览`,`Evidence grades and risk overview`],[`红山文化与比较遗产年代坐标`,`Hongshan and comparative chronology`],[`类型学定位与名录占位`,`Typological position and List vacancy`],[`负面清单归因图谱`,`Negative-list causal map`],[`页面导航`,`Page navigation`],[`打开章节导航`,`Open section navigation`],[`关闭章节导航`,`Close section navigation`]
+];
+const I18N_MAP=new Map([...I18N_STATIC,...I18N_DATA]);
+let currentLang='zh';
+function translateTree(root=document){
+  const elements=[];
+  if(root.nodeType===1)elements.push(root);
+  if(root.querySelectorAll)elements.push(...root.querySelectorAll('*'));
+  elements.forEach(el=>{
+    if(!el.dataset.i18nZh){
+      const zh=el.innerHTML?.trim();
+      const en=I18N_MAP.get(zh);
+      if(en){el.dataset.i18nZh=zh;el.dataset.i18nEn=en}
+    }
+    if(el.dataset.i18nEn)el.innerHTML=currentLang==='en'?el.dataset.i18nEn:el.dataset.i18nZh;
+    ['alt','aria-label'].forEach(attr=>{
+      const dataKey=attr==='alt'?'alt':'aria';
+      if(!el.dataset[`i18n${dataKey}Zh`]){
+        const zh=el.getAttribute(attr)?.trim(),en=I18N_MAP.get(zh);
+        if(zh&&en){el.dataset[`i18n${dataKey}Zh`]=zh;el.dataset[`i18n${dataKey}En`]=en}
+      }
+      const zh=el.dataset[`i18n${dataKey}Zh`],en=el.dataset[`i18n${dataKey}En`];
+      if(en)el.setAttribute(attr,currentLang==='en'?en:zh);
+    });
+  });
+}
+function setLanguage(lang,persist=true){
+  currentLang=lang==='en'?'en':'zh';
+  document.documentElement.lang=currentLang==='en'?'en':'zh-CN';
+  translateTree();
+  document.title=currentLang==='en'?'Hongshan Culture · ICOMOS Evaluation Outlook and OUV Strategy':'红山文化申遗 · ICOMOS评审预判与OUV策略';
+  const toggle=document.getElementById('langToggle');
+  toggle.textContent=currentLang==='en'?'中文':'EN';
+  toggle.setAttribute('aria-label',currentLang==='en'?'切换到中文':'Switch to English');
+  toggle.setAttribute('aria-pressed',String(currentLang==='en'));
+  const menu=document.getElementById('navToggle'),open=menu.getAttribute('aria-expanded')==='true';
+  menu.textContent=currentLang==='en'?(open?'Close':'Menu'):(open?'关闭':'章节导航');
+  menu.setAttribute('aria-label',currentLang==='en'?(open?'Close section navigation':'Open section navigation'):(open?'关闭章节导航':'打开章节导航'));
+  document.querySelectorAll('.risk-detail,.qa-a').forEach(el=>{if(el.style.maxHeight&&el.style.maxHeight!=='0px')el.style.maxHeight=el.scrollHeight+'px'});
+  if(persist){
+    try{localStorage.setItem('hongshan-language',currentLang)}catch(e){}
+    const url=new URL(location.href);
+    if(currentLang==='en')url.searchParams.set('lang','en');else url.searchParams.delete('lang');
+    history.replaceState(null,'',url.pathname+url.search+url.hash);
+  }
+}
+document.getElementById('langToggle').addEventListener('click',()=>setLanguage(currentLang==='en'?'zh':'en'));
+let initialLang='zh';
+try{initialLang=new URLSearchParams(location.search).get('lang')==='en'||(!new URLSearchParams(location.search).has('lang')&&localStorage.getItem('hongshan-language')==='en')?'en':'zh'}catch(e){}
+setLanguage(initialLang,false);
+</script>
+
+<script>
 /* ================= MOTION & CHROME ================= */
 gsap.registerPlugin(ScrollTrigger);
 
@@ -1126,8 +1384,9 @@ ScrollTrigger.create({trigger:'.proc',start:'top 75%',once:true,onEnter:()=>{
   const setMenu=open=>{
     nav.classList.toggle('menu-open',open);
     toggle.setAttribute('aria-expanded',String(open));
-    toggle.setAttribute('aria-label',open?'关闭章节导航':'打开章节导航');
-    toggle.textContent=open?'关闭':'章节导航';
+    const english=document.documentElement.lang==='en';
+    toggle.setAttribute('aria-label',english?(open?'Close section navigation':'Open section navigation'):(open?'关闭章节导航':'打开章节导航'));
+    toggle.textContent=english?(open?'Close':'Menu'):(open?'关闭':'章节导航');
   };
   toggle.addEventListener('click',e=>{e.stopPropagation();setMenu(!nav.classList.contains('menu-open'))});
   document.addEventListener('click',e=>{if(!e.target.closest('#nav'))setMenu(false)});
